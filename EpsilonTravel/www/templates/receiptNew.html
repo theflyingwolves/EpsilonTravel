@@ -1,0 +1,45 @@
+<ion-view view-title="receipt" ng-init="RequestReceiptDetail();">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear button-positive" 
+    ng-show="!editing"
+    ng-click="edit();">Edit</button>
+    <button class="button button-icon button-clear button-positive" 
+    ng-show="editing"
+    ng-click="finish();">Finish</button>
+  </ion-nav-buttons>
+
+  <ion-content>
+    <div class="list">
+      <img ng-src={{receiptDetail.imgUrl}} class="item-thumbnail-left">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Title</span>
+        <div class="item-content" ng-show="!editing">
+          {{receiptDetail.title}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="receiptDetail.title">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Date</span>
+        <div class="item-content" ng-show="!editing">
+          {{receiptDetail.date}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="receiptDetail.date">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Price</span>
+        <div class="item-content" ng-show="!editing">
+          {{receiptDetail.price}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="receiptDetail.price">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Description</span>
+        <div class="item-content" ng-show="!editing">
+          {{receiptDetail.description}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="receiptDetail.description">
+      </label>
+
+    </div>
+  </ion-content>
+</ion-view>

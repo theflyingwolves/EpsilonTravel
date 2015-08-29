@@ -13,8 +13,40 @@ angular.module('starter.services', [])
 		all: function() {
 			return receipts;
 		},
-		add: function(receipt) {
-			receipts.push(receipt);
+		add: function(receipt, http, scope, stateParams) {
+			// receipts.push(receipt);
+			console.log(receipt);
+			http.post('http://hack.waw.li', {
+		      "database":"receipt",
+		      "query": "insert",
+		      "data": receipt
+		    }).
+		    then(function(response) {
+		      scope.modal.hide();
+		      scope.loadReceipts();
+		      // console.log(response.data.data[0]._id)
+
+		       scope.receiptDetails = {
+			      title: '',
+			      description: '',
+			      date: '',
+			      imgUrl: '',
+			      price: '',
+			      trip_id: stateParams.trip_id
+			    };
+		    }, function(response) {
+		      // handle error
+		      scope.modal.hide();
+		       scope.receiptDetails = {
+			      title: '',
+			      description: '',
+			      date: '',
+			      imgUrl: '',
+			      price: '',
+			      trip_id: stateParams.trip_id
+			    };
+		    });
+
 		}, 
 		get: function(receiptId) {
 			for (var i = 0; i < receipts.length; i++) {

@@ -133,7 +133,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       url: '/receipts/:receiptId',
       views: {
         'menuContent': {
-          templateUrl: 'templates/receipt.html',
+          templateUrl: 'templates/receiptNew.html',
+          // templateUrl: 'templates/receipt.html',
           controller: 'ReceiptCtrl'
         }
       }
