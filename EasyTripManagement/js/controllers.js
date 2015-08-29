@@ -112,8 +112,24 @@ angular.module("easytrip", [])
 	};
 })
 
-.controller("MainCtrl", function($scope, Trips) {
+.controller("MainCtrl", function($scope,$http,Trips) {
 	$scope.filter = {};
+
+	$scope.init = function() {
+		$http.post("http://hack.waw.li",{
+			"database":"trip",
+			"query":"find",
+			"data":{
+
+			}
+		})
+		.success(function(res){
+			console.log(JSON.stringify(res));
+		})
+		error(function(err){
+			console.log(err);
+		});
+	};
 
 	$scope.isShown = function(trip) {
 		if (($scope.filter.title == undefined || $scope.filter.title.length == 0 || trip.title.toLowerCase().indexOf($scope.filter.title.toLowerCase()) >= 0 ) &&
