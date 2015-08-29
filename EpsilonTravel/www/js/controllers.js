@@ -746,6 +746,9 @@ angular.module('starter.controllers', [])
     }).
     then(function(response) {
       $scope.receipts = response.data.data;
+      for (var i = $scope.receipts.length - 1; i >= 0; i--) {
+        $scope.receipts[i].imgUrl = '../img/receipts/receipt1.jpeg';
+      };
       console.log(response.data.data)
       // console.log($scope.tripList);
     }, function(response) {
@@ -852,7 +855,7 @@ angular.module('starter.controllers', [])
         "data": $scope.receiptDetail
       }).
       then(function(response) {
-        
+
       }, function(response) {
         // handle error
       });
@@ -877,6 +880,7 @@ angular.module('starter.controllers', [])
     }).
     then(function(response) {
       $scope.receiptDetail = response.data.data[0]
+      $scope.receiptDetail.imgUrl = '../img/receipts/receipt1.jpeg';
       // console.log($scope.receiptDetail)
     }, function(response) {
       // handle error
