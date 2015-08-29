@@ -39,10 +39,26 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   })
 
   .state('app', {
-    url: '/app',
+    url: '/app/:user_id/:trip_id',
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
+  })
+
+  .state('trips',{
+    url: '/app/:user_id/trips',
+    templateUrl: 'templates/trips.html',
+    controller: 'TripCtrl'
+  })
+
+  .state('app.trip_details', {
+    url: '/tripDetails',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/tripDetails.html',
+        controller:'tripDetailCtrl'
+      }
+    }
   })
 
   .state('app.accounts', {
@@ -65,7 +81,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   })
 
   .state('app.events', {
-      url: '/:trip_id/events',
+      url: '/events',
       views: {
         'menuContent': {
           templateUrl: 'templates/events.html',
@@ -75,7 +91,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   })
 
   .state('app.event', {
-      url: '/:trip_id/events/:event_id',
+      url: '/events/:event_id',
       views: {
         'menuContent': {
           templateUrl: 'templates/event.html',

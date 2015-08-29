@@ -1,0 +1,35 @@
+  <ion-modal-view view-title="Trip">
+
+    <ion-content>
+      <div class="list">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Title</span>
+          <input type="text" ng-model="tripDetail.title">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Base city</span>
+          <input type="text" ng-model="tripDetail.basecity">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Destination</span>
+          <input type="text" ng-model="tripDetail.destination">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Start Date</span>
+          <input type="text" ng-model="tripDetail.startdate">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">End Date</span>
+          <input type="text" ng-model="tripDetail.enddate">
+        </label>
+
+        <button class="button button-block button-positive" ng-click="confirmAdd();">
+          Confirm
+        </button>
+        <button class="button button-block button-stable" ng-click="cancelAdd();">
+          Cancel
+        </button>
+
+      </div>
+    </ion-content>
+  </ion-modal-view>

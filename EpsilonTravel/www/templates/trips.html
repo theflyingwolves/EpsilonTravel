@@ -1,0 +1,36 @@
+<ion-view view-title="All Trips" ng-init="RequestTriplists();">
+
+  <ion-header-bar>
+    <h1 class="title">User Name</h1>
+    <button class="button button-icon button-clear button-positive" 
+    ng-click="openModal();">Add</button>
+    
+  </ion-header-bar>
+
+  <!-- <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear button-positive" 
+    ng-click="">Add</button>
+    </ion-nav-buttons> -->
+
+ <!--  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="trip in tripList" href="#/app/{{event.trip_id}}/events/{{event.id}}">
+        {{trip.title}}
+      </ion-item>
+    </ion-list>
+  </ion-content> -->
+
+  <ion-content>
+    <ion-list can-swipe="listCanSwipe">
+      <ion-item ng-repeat="trip in tripList" href="#/app/{{trip.user_id}}/{{trip._id}}/events">
+        {{trip.title}}
+      <ion-option-button class="button-assertive"
+                       ng-click="deleteItem($index);">
+          delete
+      </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+
+
+</ion-view>

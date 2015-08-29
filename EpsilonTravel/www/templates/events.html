@@ -7,7 +7,8 @@
 
   <ion-content>
     <ion-list can-swipe="listCanSwipe">
-      <ion-item ng-repeat="event in eventlists" href="#/app/{{event.trip_id}}/events/{{event._id}}">
+      <ion-item ng-repeat="event in eventlists" href="#{{generate_path(event._id);}}">
+      <!-- <ion-item ng-repeat="event in eventlists" href="#/app/{{event.trip_id}}/events/{{event._id}}"> -->
         {{event.title}}
         <span class="item-note">
 	      {{event.time}}
