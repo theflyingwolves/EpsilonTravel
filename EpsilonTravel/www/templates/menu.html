@@ -18,21 +18,21 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-<!--         <ion-item menu-close ng-click="login()">
-          Search
-        </ion-item>
- -->        
-        <ion-item menu-close href="#{{join_path('search');}}">
-        <i class="icon ion-search icon-search"></i>
-          Search
-        </ion-item>
-        <ion-item menu-close href="#{{join_path('events');}}">
-        <i class="ion-person-stalker icon-events"></i>
-          Events
+        <ion-item menu-close href="#{{join_path('tripDetails');}}">
+        <i class="icon ion-plane icon-trip"></i>
+          Trip details
         </ion-item>
         <ion-item menu-close href="#{{join_path('local');}}">
         <i class="ion-location icon-localinfo"></i>
           Local Info
+        </ion-item>
+        <ion-item menu-close href="#{{join_path('events');}}">
+        <i class="ion-person-stalker icon-events"></i>
+          Schedule
+        </ion-item>
+        <ion-item menu-close href="#{{join_path('receipts');}}">
+        <i class="icon ion-cash icon-receipt"></i>
+          Receipt
         </ion-item>
         <ion-item menu-close href="#{{join_path('food');}}">
         <i class="icon ion-android-restaurant icon-food"></i>
@@ -42,26 +42,14 @@
         <i class="ion-ios-game-controller-b icon-activities"></i>
           Activities
         </ion-item>
-        <ion-item menu-close href="#{{join_path('receipts');}}">
-        <i class="icon ion-cash icon-receipt"></i>
-          Receipt
-        </ion-item>
-        <!-- <ion-item menu-close href="#/app/{{trip_id}}/account">
-          Account
-        </ion-item> -->
-        <!-- <ion-item menu-close ng-click="test_function();"> -->
-        <ion-item menu-close href="#{{join_path('tripDetails');}}">
-        <i class="icon ion-plane icon-trip"></i>
-          Trip details
+        <ion-item menu-close href="#{{join_path('packing_lists');}}">
+          <i class="icon ion-android-list icon-packing-list"></i>
+          Packing Lists
         </ion-item>
         <ion-item menu-close href="#{{trips_path();}}">
         <i class="icon ion-arrow-return-left icon-back"></i>
           Back to trips
         </ion-item>
-        <ion-item menu-close href="#{{join_path('packing_lists');}}">
-          Packing Lists
-        </ion-item>
-
       </ion-list>
     </ion-content>
   </ion-side-menu>
