@@ -161,20 +161,15 @@ angular.module('starter.controllers', [])
       "data": {trip_id:"oAIaoXvX0cT394VU"}
     }).
     then(function(response) {
-      console.log(response)
       $scope.eventlists = response.data.data;
+      console.log($scope.eventlists);
     }, function(response) {
       // handle error
     });
-
-    // $http.get("someapi")
-    //   .success(function(response) {$scope.eventlists = response.eventlists;});
-    // $scope.eventlists = [
-    //   { title: 'Meeting with Ms K', id: 5 , time:"Sep 1st 9am", trip_id:trip_id},
-    //   { title: 'Meeting with Mr M', id: 6 , time:"Sep 1st 11am", trip_id:trip_id}
-    // ];
   }
 
+
+  // handle the add button
   $ionicModal.fromTemplateUrl('templates/eventModal.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -226,6 +221,24 @@ angular.module('starter.controllers', [])
     // Execute action
   });
 
+  // handle swipe and delete
+   $scope.listCanSwipe = true
+   $scope.deleteItem = function(event_idx){
+      var e_id = $scope.eventlists[event_idx]._id;
+      $scope.eventlists.splice(event_idx, 1);  
+      
+      $http.post('http://hack.waw.li', {
+        "database":"event",
+        "query": "delete",
+        "data": {_id:e_id}
+      }).
+      then(function(response) {
+        
+      }, function(response) {
+        // handle error
+      });
+
+   }
 })
 
 .controller('EventCtrl', function($scope, $http, $stateParams) {
@@ -239,37 +252,51 @@ angular.module('starter.controllers', [])
   $scope.finish = function () {
     $scope.editing = false;
 
-    // $http.post('/someUrl', {event_data:$scope.eventDetail}).
-    // then(function(response) {
-      
-    // }, function(response) {
-    //   // handle error
-    // });
+    $http.post('http://hack.waw.li', {
+      "database":"event",
+      "query": "delete",
+      "data": {
+        _id:$stateParams.event_id
+      }
+    }).
+    then(function(response) {
+      $http.post('http://hack.waw.li', {
+        "database":"event",
+        "query": "insert",
+        "data": $scope.eventDetail
+      }).
+      then(function(response) {
+        
+      }, function(response) {
+        // handle error
+      });
+    }, function(response) {
+      // handle error
+    });
   }
 
   $scope.RequestEventDetail = function(){
 
-    // $http.post('http://hack.waw.li', {
-    //   "database":"event",
-    //   "query": "find",
-    //   "data": $scope.eventDetail
-    // }).
-    // then(function(response) {
-    //   $scope.modal.hide();
-    //   $scope.Requesteventlists();
-    // }, function(response) {
-    //   // handle error
-    // });
+    $http.post('http://hack.waw.li', {
+      "database":"event",
+      "query": "find",
+      "data": {_id:$stateParams.event_id}
+    }).
+    then(function(response) {
+      $scope.eventDetail = response.data.data[0]
+    }, function(response) {
+      // handle error
+    });
 
 
 
-    $scope.eventDetail = {
-      title: "Meeting with Ms K",
-      date: "Sep 1st",
-      time: "9am",
-      location: "NUS",
-      description: "discuss some important issues"
-    }
+    // $scope.eventDetail = {
+    //   title: "Meeting with Ms K",
+    //   date: "Sep 1st",
+    //   time: "9am",
+    //   location: "NUS",
+    //   description: "discuss some important issues"
+    // }
   }
 
 })
