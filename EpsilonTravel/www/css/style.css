@@ -24,6 +24,18 @@
 	margin-top: 30%;
 }
 
+.login-button {
+	display: block;
+	width: 100%;
+	background-color: transparent;
+		border-width: 0px 0px 0px 0px;
+	border-bottom: 1px solid #fff;
+}
+
+.login-button span {
+	color: white;
+}
+
 .homeContainer {
 	margin-left: 10%;
 	width: 80%;
