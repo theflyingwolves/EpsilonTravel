@@ -211,6 +211,7 @@ angular.module('starter.controllers', [])
       }
     }, function(response) {
       // handle error
+      $scope.modal.hide();
       $scope.tripDetail = {
         title: "",
         startdate: "",
@@ -378,6 +379,7 @@ angular.module('starter.controllers', [])
       }
     }, function(response) {
       // handle error
+      $scope.modal.hide();
        $scope.eventDetail = {
         title: "",
         date: "",
@@ -428,8 +430,8 @@ angular.module('starter.controllers', [])
 
    // append to create new url
    $scope.join_path = function(things_to_append){
-    console.log("hello");
-    console.log($location.url()+"/"+things_to_append);
+    // console.log("hello");
+    // console.log($location.url()+"/"+things_to_append);
     return $location.url()+"/"+things_to_append;
    }
 
@@ -502,7 +504,205 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('ReceiptsCtrl', function($scope, $ionicModal, ReceiptService, CameraService, $location) {
+.controller('packsCtrl', function($scope, $http, $stateParams, $ionicModal, $location) {
+
+  $scope.templatelist = [];
+  $scope.templateDetail = {
+      title: "",
+      items: {},
+      user_id: $stateParams.user_id
+    }
+
+  $scope.RequestTemplatelist = function(){
+
+    $http.post('http://hack.waw.li', {
+      "database":"packtemplate",
+      "query": "find",
+      "data": {user_id:$stateParams.user_id}
+    }).
+    then(function(response) {
+      $scope.templatelist = response.data.data;
+    }, function(response) {
+      // handle error
+    });
+  }
+
+
+  // handle the add button
+  $ionicModal.fromTemplateUrl('templates/packingModal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  $scope.confirmAdd = function() {
+    $http.post('http://hack.waw.li', {
+      "database":"packtemplate",
+      "query": "insert",
+      "data": $scope.templateDetail
+    }).
+    then(function(response) {
+      $scope.RequestTemplatelist();
+      $scope.modal.hide();
+      
+      $scope.templateDetail = {
+        title: "",
+        items: {},
+        user_id: $stateParams.user_id
+      }
+    }, function(response) {
+      // handle error
+      $scope.modal.hide();
+      $scope.templateDetail = {
+        title: "",
+        items: {},
+        user_id: $stateParams.user_id
+      }
+    });   
+  };
+  $scope.cancelAdd = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+  // handle swipe and delete
+   $scope.listCanSwipe = true
+   $scope.deleteItem = function(template_idx){
+      var e_id = $scope.templatelist[template_idx]._id;
+      $scope.templatelist.splice(template_idx, 1);  
+      
+      $http.post('http://hack.waw.li', {
+        "database":"packtemplate",
+        "query": "delete",
+        "data": {_id:e_id}
+      }).
+      then(function(response) {
+        
+      }, function(response) {
+        // handle error
+      });
+
+   }
+
+   // append to create new url
+   $scope.join_path = function(things_to_append){
+    // console.log("hello");
+    // console.log($location.url()+"/"+things_to_append);
+    return $location.url()+"/"+things_to_append;
+   }
+
+})
+
+.controller('packlistCtrl', function($scope, $http, $stateParams) {
+  $scope.templateDetail = {};
+  $scope.editing = false;
+
+  $scope.edit = function () {
+    $scope.editing = true;
+  }
+
+  $scope.finish = function () {
+    $scope.editing = false;
+
+    $http.post('http://hack.waw.li', {
+      "database":"packtemplate",
+      "query": "delete",
+      "data": {
+        _id:$stateParams.template_id
+      }
+    }).
+    then(function(response) {
+      $http.post('http://hack.waw.li', {
+        "database":"packtemplate",
+        "query": "insert",
+        "data": $scope.templateDetail
+      }).
+      then(function(response) {
+        
+      }, function(response) {
+        // handle error
+      });
+    }, function(response) {
+      // handle error
+    });
+  }
+
+  $scope.RequestTemplateDetail = function(){
+
+    // $http.post('http://hack.waw.li', {
+    //   "database":"packtemplate",
+    //   "query": "find",
+    //   "data": {_id:$stateParams.template_id}
+    // }).
+    // then(function(response) {
+    //   $scope.templateDetail = response.data.data[0]
+    // }, function(response) {
+    //   // handle error
+    // });
+
+    $scope.templateDetail = {
+      title: "my_title",
+      items: ["item1","item2","item3","item4","item5"],
+      selected: [true, true, false, false, false],
+      user_id: 1
+    }
+
+  }
+
+  $scope.toggle = function(idx){
+    if ($scope.templateDetail.selected[idx]) {
+      $scope.templateDetail.selected[idx] = false
+    }else{
+      $scope.templateDetail.selected[idx] = true
+    }
+
+    // console.log($scope.templateDetail.selected);
+    // $http.post('http://hack.waw.li', {
+    //   "database":"packtemplate",
+    //   "query": "delete",
+    //   "data": {
+    //     _id:$stateParams.template_id
+    //   }
+    // }).
+    // then(function(response) {
+    //   $http.post('http://hack.waw.li', {
+    //     "database":"packtemplate",
+    //     "query": "insert",
+    //     "data": $scope.templateDetail
+    //   }).
+    //   then(function(response) {
+        
+    //   }, function(response) {
+    //     // handle error
+    //   });
+    // }, function(response) {
+    //   // handle error
+    // });
+    
+
+  }
+
+})
+
+
+.controller('ReceiptsCtrl', function($scope, $ionicModal, ReceiptService, CameraService) {
   $scope.receiptDetails = {
     title: '',
     description: '',
