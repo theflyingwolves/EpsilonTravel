@@ -118,7 +118,7 @@ angular.module('starter.controllers', [])
         $scope.showConfirm("Log In Failed");
       } else {
         console.log("Redirecting");
-        $window.location.href = "#/app";
+        $window.location.href = "#/trips";
       }
     })
 
@@ -129,6 +129,18 @@ angular.module('starter.controllers', [])
   };
 
   $scope.initAcc = function() {
+  };
+})
+
+.controller('TripCtrl',function($scope){
+  $scope.tripList = {};
+
+  $scope.initTripList = function(){
+      $scope.tripList = [{
+        name: "Trip 1"
+      },{
+        name: "Trip 2"
+      }];
   };
 })
 
@@ -162,17 +174,17 @@ angular.module('starter.controllers', [])
   trip_id = $stateParams.trip_id;
   $scope.Requesteventlists = function(){
 
-    $http.post('http://hack.waw.li', {
-      "database":"event",
-      "query": "find",
-      "data": {trip_id:"oAIaoXvX0cT394VU"}
-    }).
-    then(function(response) {
-      console.log(response)
-      $scope.eventlists = response.data.data;
-    }, function(response) {
-      // handle error
-    });
+  $http.post('http://hack.waw.li', {
+    "database":"event",
+    "query": "find",
+    "data": {trip_id:"oAIaoXvX0cT394VU"}
+  }).
+  then(function(response) {
+    console.log(response)
+    $scope.eventlists = response.data.data;
+  }, function(response) {
+    // handle error
+  });
 
     // $http.get("someapi")
     //   .success(function(response) {$scope.eventlists = response.eventlists;});

@@ -1,0 +1,16 @@
+<ion-view view-title="All Trips" ng-init="initTripList();">
+
+  <ion-header-bar>
+    <h1 class="title">User Name</h1>
+    <button class="button button-icon button-clear button-positive" 
+    ng-click="openModal();">Add</button>
+  </ion-header-bar>
+
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="trip in tripList" href="#/app/{{event.trip_id}}/events/{{event.id}}">
+        {{trip.title}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
