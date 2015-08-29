@@ -9,6 +9,10 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
+  $scope.init = function() {
+    console.log("Init");
+  };
+
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -39,6 +43,86 @@ angular.module('starter.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
+
+})
+
+.controller('HomeCtrl', function($scope, $ionicModal, $ionicPopup,$location, $http){
+  $scope.credential = {};
+
+  $scope.registerInfo = {};
+
+  $scope.loginModal;
+  $scope.registerModal;
+
+  $scope.serverUrl = "http://hack.waw.li";
+
+  $ionicModal.fromTemplateUrl('templates/login.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.loginModal = modal;
+  });
+
+  $ionicModal.fromTemplateUrl('templates/register.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.registerModal = modal;
+  });
+
+  $scope.showLogin = function(){
+    $scope.loginModal.show();
+  };
+
+  $scope.closeLogin = function(){
+    $scope.loginModal.hide();
+  };
+
+  $scope.showRegister = function(){
+    $scope.registerModal.show();
+  };
+
+  $scope.closeRegister = function(){
+    $scope.registerModal.hide();
+  };
+
+  $scope.register = function(){
+    console.log("Registering "+$scope.registerInfo);
+    $scope.registerModal.hide();
+    $http.post($scope.serverUrl+"/signup",$scope.registerInfo)
+    .success(function(res){
+      if(res.status == "success"){
+        $scope.showConfirm("Register Successful");
+      } else {
+        $scope.showConfirm("User Name Already Exists");
+      }
+    })
+    .error(function(err){
+      console.log(err);
+    });
+  };
+
+  $scope.showConfirm = function(message) {
+    var confirmPopup = $ionicPopup.confirm({
+     title: message
+    });
+  };
+
+  $scope.login = function() {
+    $scope.loginModal.hide();
+
+    $http.post($scope.serverUrl+"/login",$scope.credential)
+    .success(function(res){
+      if (res.status != "success") {
+        $scope.showConfirm("Log In Failed");
+      }
+    })
+
+    .error(function(err){
+      $scope.showConfirm(err);
+    });
+  };
+
+  $scope.initAcc = function() {
+  };
 })
 
 .controller('PlaylistsCtrl', function($scope) {
@@ -52,7 +136,15 @@ angular.module('starter.controllers', [])
   ];
 })
 
+<<<<<<< HEAD
 .controller('EventsCtrl', function($scope, $http, $stateParams, $ionicModal) {
+=======
+.controller('AccountCtrl', function($scope, $ionicModal) {
+
+})
+
+.controller('EventsCtrl', function($scope, $http, $stateParams) {
+>>>>>>> c87a0a925105c38076a60979fb7b0b959fa09055
   $scope.eventlists = [];
   $scope.eventDetail = {
       title: "",
@@ -175,8 +267,6 @@ angular.module('starter.controllers', [])
   }
 
 })
-
-
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 });
