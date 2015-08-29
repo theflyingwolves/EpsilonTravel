@@ -1,11 +1,99 @@
-.bar.bar-accenture {
-    border-color: #000000;
-    background-color: #32752E;
-    background-image: linear-gradient(0deg, #0c63ee, #0c63ee 50%, transparent 50%);
-    color: #fff; }
-    .bar.bar-positive .title {
-      color: #fff; }
-    .bar.bar-positive.bar-footer {
-      background-image: linear-gradient(180deg, #0c63ee, #0c63ee 50%, transparent 50%); }
 /* Empty. Add your own CSS if you like */
+/*********** Login ***********/
+.login-background {
+  background-image: url('../img/bg.jpg');
+  background-size: cover;
+  display: block;
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  right: 0;
+}
+
+.mid-layer {
+	position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+	background-color: black;
+	opacity: 0.1;
+}
+
+.login-list {
+	background-color: rgba(0,0,0,0.5);
+	margin-top: 30%;
+}
+
+.login-button {
+	display: block;
+	width: 100%;
+	background-color: transparent;
+		border-width: 0px 0px 0px 0px;
+	border-bottom: 1px solid #fff;
+}
+
+.login-button span {
+	color: white;
+}
+
+.homeContainer {
+	margin-left: 10%;
+	width: 80%;
+	top: 15%;
+}
+
+.homeContainer h1 {
+	color: #fff;
+	text-align: center;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 400%;
+}
+
+.register-link a {
+	color: white;
+	text-decoration: underline;
+}
+
+.register-link a:hover {
+	color: blue;
+	cursor: pointer;
+}
+
+.register-link {
+	text-align: center;
+}
+
+.login-label {
+	background-color: transparent;	
+	border-width: 0px 0px 0px 0px;
+	border-bottom: 1px solid #fff;
+}
+
+.login-list input {
+	color: #fff;
+}
 /*********** Receipts ***********/
+.icon-search {
+  	color: rgb(235, 77, 108);
+}
+.icon-events {
+	color: rgb(94, 133, 228); 
+}
+.icon-localinfo {
+	color: rgb(62, 182, 133);
+}
+.icon-food {
+	color: rgb(225, 158, 53);
+}
+.icon-activities {
+	color: rgb(225, 75, 48);
+}
+.icon-receipt {
+	color: rgb(52, 176, 79);
+}
+.icon-trip {
+	color: rgb(14, 96, 173);
+}
+.icon-back {
+	color: rgb(202, 201, 207);
+}

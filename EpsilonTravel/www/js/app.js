@@ -144,7 +144,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       views: {
         'menuContent': {
           templateUrl: 'templates/local.html',
-          controller: 'PlaylistsCtrl'
+          controller: 'LocalCtrl'
         }
       }
     })

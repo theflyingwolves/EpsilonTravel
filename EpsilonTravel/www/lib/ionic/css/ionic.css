@@ -4704,7 +4704,8 @@ ion-tabs.tabs-color-active-dark .tab-item {
     color: #444; }
   .item.item-stable {
     border-color: #b2b2b2;
-    background-color: #f8f8f8;
+    /*background-color: #f8f8f8;*/
+    background-color: rgb(32,40,50);
     color: #444; }
   .item.item-positive {
     border-color: #0c63ee;

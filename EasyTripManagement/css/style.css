@@ -1,0 +1,17 @@
+.nav-container nav {
+	background-color: #32752E;	
+}
+
+.nav-container .alert {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+.nav-container nav .navbar-brand {
+	color: white;
+}
+
+.nav-container .table-container {
+	margin-right: 15px;
+	margin-left: 15px;
+}
