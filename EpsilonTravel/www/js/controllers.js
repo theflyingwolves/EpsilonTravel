@@ -52,18 +52,90 @@ angular.module('starter.controllers', [])
   ];
 })
 
-.controller('EventsCtrl', function($scope, $http, $stateParams) {
+.controller('EventsCtrl', function($scope, $http, $stateParams, $ionicModal) {
   $scope.eventlists = [];
+  $scope.eventDetail = {
+      title: "",
+      date: "",
+      time: "",
+      location: "",
+      description: "",
+      trip_id: "oAIaoXvX0cT394VU"
+    }
+
   trip_id = $stateParams.trip_id;
   $scope.Requesteventlists = function(){
 
+    $http.post('http://hack.waw.li', {
+      "database":"event",
+      "query": "find",
+      "data": {trip_id:"oAIaoXvX0cT394VU"}
+    }).
+    then(function(response) {
+      console.log(response)
+      $scope.eventlists = response.data.data;
+    }, function(response) {
+      // handle error
+    });
+
     // $http.get("someapi")
     //   .success(function(response) {$scope.eventlists = response.eventlists;});
-    $scope.eventlists = [
-      { title: 'Meeting with Ms K', id: 5 , time:"Sep 1st 9am", trip_id:trip_id},
-      { title: 'Meeting with Mr M', id: 6 , time:"Sep 1st 11am", trip_id:trip_id}
-    ];
+    // $scope.eventlists = [
+    //   { title: 'Meeting with Ms K', id: 5 , time:"Sep 1st 9am", trip_id:trip_id},
+    //   { title: 'Meeting with Mr M', id: 6 , time:"Sep 1st 11am", trip_id:trip_id}
+    // ];
   }
+
+  $ionicModal.fromTemplateUrl('templates/eventModal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  $scope.confirmAdd = function() {
+    $http.post('http://hack.waw.li', {
+      "database":"event",
+      "query": "insert",
+      "data": $scope.eventDetail
+    }).
+    then(function(response) {
+      $scope.modal.hide();
+      $scope.Requesteventlists();
+    }, function(response) {
+      // handle error
+    });
+
+    $scope.eventDetail = {
+      title: "",
+      date: "",
+      time: "",
+      location: "",
+      description: "",
+      trip_id: "oAIaoXvX0cT394VU"
+    }
+    
+  };
+  $scope.cancelAdd = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
 
 })
 
@@ -78,13 +150,21 @@ angular.module('starter.controllers', [])
   $scope.finish = function () {
     $scope.editing = false;
 
-    // need to post to server
+    // $http.post('/someUrl', {event_data:$scope.eventDetail}).
+    // then(function(response) {
+      
+    // }, function(response) {
+    //   // handle error
+    // });
   }
 
   $scope.RequestEventDetail = function(){
 
     // $http.get("someapi")
     //   .success(function(response) {$scope.names = response.records;});
+
+
+
     $scope.eventDetail = {
       title: "Meeting with Ms K",
       date: "Sep 1st",
