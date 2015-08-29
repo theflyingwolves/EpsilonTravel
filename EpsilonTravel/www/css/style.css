@@ -49,6 +49,16 @@
 	font-size: 400%;
 }
 
+.register-link a {
+	color: white;
+	text-decoration: underline;
+}
+
+.register-link a:hover {
+	color: blue;
+	cursor: pointer;
+}
+
 .register-link {
 	text-align: center;
 }

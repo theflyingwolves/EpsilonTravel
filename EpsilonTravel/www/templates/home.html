@@ -7,16 +7,16 @@
     </div>
     <div class="list list-inset login-list"> 
     	  <label class="item item-input login-label">
-          <input type="text" placeholder="Username">
+          <input type="text" placeholder="Username" ng-model="credential.username">
         </label>
 
         <label class="item item-input login-label">
-          <input type="text" placeholder="Password">
+          <input type="password" placeholder="Password" ng-model="credential.password">
         </label>
-        <button class="button login-button"><span>Login</span></button>
+        <button class="button login-button" ng-click="login()"><span>Login</span></button>
   	</div>
     <div class="register-link">
-      <a href="#">Register</a>
+      <a ng-click="showRegister()">Register Now!</a>
     </div>
   </ion-content>
 </ion-view>
