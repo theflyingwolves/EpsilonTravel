@@ -9,6 +9,10 @@ angular.module('starter.services', [])
 	  {title: 'receipt4', imgUrl: '../img/receipts/receipt4.jpeg', description: 'something', date: 'March 1, 2014 11:13:00', price: 300, id: 'r4'}
 	];
 
+	var getRandomInt = function(min, max) {
+	  return Math.floor(Math.random() * (max - min)) + min;
+	}
+
 	return {
 		all: function() {
 			return receipts;
@@ -68,6 +72,10 @@ angular.module('starter.services', [])
 					r.price = receipt.price;
 				}
 			}
+		}, 
+		randomImg: function() {
+			var index = getRandomInt(0, 4);
+			return receipts[index].imgUrl;
 		}
 	};
 })
