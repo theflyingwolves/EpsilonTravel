@@ -74,15 +74,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       views: {
         'menuContent': {
           templateUrl: 'templates/receipts.html',
-          controller: 'ReceiptCtrl'
+          controller: 'ReceiptsCtrl'
         }
       }
     })
 
     .state('app.receipt', {
-      url: '/receipts/:receiptId',
+      url: '/receipt/:receiptId',
       views: {
-        'receiptDetail': {
+        'menuContent': {
           templateUrl: 'templates/receipt.html',
           controller: 'ReceiptCtrl'
         }
@@ -109,5 +109,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/receipts');
 });

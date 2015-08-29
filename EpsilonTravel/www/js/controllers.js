@@ -55,7 +55,7 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('ReceiptCtrl', function($scope, $ionicModal, ReceiptService) {
+.controller('ReceiptsCtrl', function($scope, $ionicModal, ReceiptService, CameraService) {
   $scope.receiptDetails = {
     title: '',
     description: '',
@@ -64,6 +64,7 @@ angular.module('starter.controllers', [])
     price: '',
     id: ''
   };
+
   $scope.loadReceipts = function() {
     $scope.receipts = ReceiptService.all();
   };
@@ -93,5 +94,23 @@ angular.module('starter.controllers', [])
       price: '',
       id: ''
     };
+  };
+
+  $scope.takePicture = function() {
+    CameraService.getPicture().then(function(imageURI) {
+      $scope.receiptDetails.imgUrl = imageURI;
+    }, function(err) {
+      console.err(err);
+    });
+  }
+})
+
+.controller('ReceiptCtrl', function($scope, $stateParams, $ionicHistory, ReceiptService) {
+  $scope.receiptId = $stateParams.receiptId;
+  $scope.receiptDetails = ReceiptService.get($scope.receiptId);
+
+  $scope.comfirmReceipt = function() {
+    ReceiptService.update($scope.receiptDetails);
+    $ionicHistory.goBack();
   }
 });
