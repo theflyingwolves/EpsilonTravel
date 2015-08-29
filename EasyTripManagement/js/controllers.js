@@ -1,96 +1,6 @@
 angular.module("easytrip", [])
 .factory('Trips', function(){
 	var allTrips = [
-	{
-		"title":"Trip 1",
-		"destination": "Singapore",
-		"participants": "Wang Kunzhen",
-		"start" : "20150103",
-		"end" : "20150108",
-		"expense" : "300",
-		"summary" : "nonsense",
-		"receipts" : [{
-			"title" : "receipt 1",
-			"date" : "20150102",
-			"time" : "1600",
-			"amount" : "10",
-			"description" : "some description"
-		},
-		{
-			"title" : "receipt 2",
-			"date" : "20150102",
-			"time" : "1600",
-			"amount" : "20",
-			"description" : "some description"
-		},
-		{
-			"title" : "receipt 3",
-			"date" : "20150102",
-			"time" : "1600",
-			"amount" : "30",
-			"description" : "some description"
-		}]
-	},
-	{
-		"title":"Trip 2",
-		"destination": "Guangzhou",
-		"participants": "Wang Kunzhen",
-		"start" : "20150103",
-		"end" : "20150108",
-		"expense" : "300",
-		"summary" : "nonsense",
-		"receipts" : [{
-			"title" : "receipt 1",
-			"date" : "20150102",
-			"time" : "1600",
-			"amount" : "10",
-			"description" : "some description"
-		},
-		{
-			"title" : "receipt 2",
-			"date" : "20150102",
-			"time" : "1600",
-			"amount" : "20",
-			"description" : "some description"
-		},
-		{
-			"title" : "receipt 3",
-			"date" : "20150102",
-			"time" : "1600",
-			"amount" : "30",
-			"description" : "some description"
-		}]
-	},
-	{
-		"title":"Trip 3",
-		"destination": "Shenzhen",
-		"participants": "Wang Kunzhen",
-		"start" : "20150103",
-		"end" : "20150108",
-		"expense" : "300",
-		"summary" : "nonsense",
-		"receipts" : [{
-			"title" : "receipt 1",
-			"date" : "20150102",
-			"time" : "1600",
-			"amount" : "10",
-			"description" : "some description"
-		},
-		{
-			"title" : "receipt 2",
-			"date" : "20150102",
-			"time" : "1600",
-			"amount" : "20",
-			"description" : "some description"
-		},
-		{
-			"title" : "receipt 3",
-			"date" : "20150102",
-			"time" : "1600",
-			"amount" : "30",
-			"description" : "some description"
-		}]
-	}
 	];
 
 	var selected = {};
@@ -115,30 +25,102 @@ angular.module("easytrip", [])
 .controller("MainCtrl", function($scope,$http,Trips) {
 	$scope.filter = {};
 
+	$scope.users = {};
+
+	$scope.receipts = {};
+
 	$scope.init = function() {
+		console.log("init");
+
 		$http.post("http://hack.waw.li",{
 			"database":"trip",
 			"query":"find",
 			"data":{
-
 			}
 		})
 		.success(function(res){
-			console.log(JSON.stringify(res));
+			$scope.tripList = res.data;
+
+			$http.post("http://hack.waw.li",{
+				"database":"user",
+				"query":"find",
+				"data":{
+				}
+			})
+			.success(function(res){
+				$scope.users = res.data;
+
+				$http.post("http://hack.waw.li",{
+					"database":"receipt",
+					"query":"find",
+					"data":{
+					}
+				})
+
+				.success(function(res){
+					$scope.receipts = res.data;
+					$scope.match();
+				})
+				.error(function(err){
+					console.log(err);
+				});
+
+			})
+			.error(function(err){
+				console.log(err);
+			});
 		})
-		error(function(err){
+		.error(function(err){
 			console.log(err);
 		});
 	};
+
+
+	$scope.match = function() {
+		console.log("Users: "+$scope.users.length);
+		console.log("Trips: "+$scope.tripList.length);
+		console.log("Receipts: "+$scope.receipts.length);
+
+		for (var i = $scope.tripList.length - 1; i >= 0; i--) {
+			var trip = $scope.tripList[i];
+
+			if (trip.receipts == undefined) {
+				trip.receipts = [];
+			}
+
+			if (trip.totalExpense == undefined) {
+				trip.totalExpense = 0;
+			};
+
+			for (var j = $scope.users.length - 1; j >= 0; j--) {
+				var user = $scope.users[j];
+				if (user._id == trip.user_id) {
+					trip.participants = user.username;
+				};
+			};
+
+			for (var k = $scope.receipts.length - 1; k >= 0; k--) {
+				var receipt = $scope.receipts[k];
+				if (receipt.trip_id == trip._id) {
+					trip.receipts.push(receipt);
+					if (receipt.price.length > 0) {
+							trip.totalExpense += parseFloat(receipt.price);						
+					};
+				}
+			};
+		};
+
+		$scope.calculateTotalCost();
+	}
 
 	$scope.isShown = function(trip) {
 		if (($scope.filter.title == undefined || $scope.filter.title.length == 0 || trip.title.toLowerCase().indexOf($scope.filter.title.toLowerCase()) >= 0 ) &&
 				($scope.filter.destination == undefined || $scope.filter.destination.length == 0 || trip.destination.toLowerCase().indexOf($scope.filter.destination.toLowerCase()) >= 0 ) &&
 				($scope.filter.participants  == undefined || $scope.filter.participants.length == 0 || trip.participants.toLowerCase().indexOf($scope.filter.participants.toLowerCase()) >= 0 ) &&
-				($scope.filter.start  == undefined || $scope.filter.start.length == 0 || trip.start.toLowerCase().indexOf($scope.filter.start.toLowerCase()) >= 0 ) &&
-				($scope.filter.end  == undefined || $scope.filter.end.length == 0 || trip.end.toLowerCase().indexOf($scope.filter.end.toLowerCase()) >= 0 ) &&
+				($scope.filter.start  == undefined || $scope.filter.start.length == 0 || trip.startdate.toLowerCase().indexOf($scope.filter.start.toLowerCase()) >= 0 ) &&
+				($scope.filter.end  == undefined || $scope.filter.end.length == 0 || trip.enddate.toLowerCase().indexOf($scope.filter.end.toLowerCase()) >= 0 ) &&
 				($scope.filter.summary  == undefined || $scope.filter.summary.length == 0 || trip.summary.toLowerCase().indexOf($scope.filter.summary.toLowerCase()) >= 0 ) && 
-				($scope.filter.expense  == undefined || $scope.filter.expense.length == 0 || trip.expense.toLowerCase().indexOf($scope.filter.expense.toLowerCase()) >= 0 )) {
+				($scope.filter.expense  == undefined || $scope.filter.expense.length == 0 || (trip.totalExpense+"").toLowerCase().indexOf($scope.filter.expense.toLowerCase()) >= 0 )) {
 			return true;
 		} else {
 			return false;
@@ -179,17 +161,21 @@ angular.module("easytrip", [])
 	};
 
 	$scope.$watch('filter',function(){
-		var total = 0;
+		$scope.calculateTotalCost();
+	}, true);
+
+	$scope.calculateTotalCost = function(){
+				var total = 0;
 
 		for(var index = 0; index < $scope.tripList.length; index++) {
 			var trip = $scope.tripList[index];
 			if ($scope.isShown(trip)) {
-				total += parseFloat(trip.expense);
+				total += parseFloat(trip.totalExpense);
 			}
 		}
 
 		$scope.totalExpense = total;
-	}, true);
+	};
 
 	$scope.tripList = Trips.all();
 });
