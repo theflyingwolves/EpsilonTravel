@@ -12,7 +12,7 @@
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
 
-  <ion-side-menu side="left" ng-init="updateTripId();">
+  <ion-side-menu class="side-menu" side="left" ng-init="updateTripId();">
     <ion-header-bar class="bar-stable">
       <h1 class="title">Trip Name</h1>
     </ion-header-bar>
@@ -23,21 +23,27 @@
         </ion-item>
  -->        
         <ion-item menu-close href="#{{join_path('search');}}">
+        <i class="icon ion-search icon-search"></i>
           Search
         </ion-item>
         <ion-item menu-close href="#{{join_path('events');}}">
+        <i class="ion-person-stalker icon-events"></i>
           Events
         </ion-item>
         <ion-item menu-close href="#{{join_path('local');}}">
+        <i class="ion-location icon-localinfo"></i>
           Local Info
         </ion-item>
         <ion-item menu-close href="#{{join_path('food');}}">
+        <i class="icon ion-android-restaurant icon-food"></i>
           Food
         </ion-item>
         <ion-item menu-close href="#{{join_path('activities');}}">
+        <i class="ion-ios-game-controller-b icon-activities"></i>
           Activities
         </ion-item>
         <ion-item menu-close href="#{{join_path('receipts');}}">
+        <i class="icon ion-cash icon-receipt"></i>
           Receipt
         </ion-item>
         <!-- <ion-item menu-close href="#/app/{{trip_id}}/account">
@@ -45,9 +51,11 @@
         </ion-item> -->
         <!-- <ion-item menu-close ng-click="test_function();"> -->
         <ion-item menu-close href="#{{join_path('tripDetails');}}">
+        <i class="icon ion-plane icon-trip"></i>
           Trip details
         </ion-item>
         <ion-item menu-close href="#{{trips_path();}}">
+        <i class="icon ion-arrow-return-left icon-back"></i>
           Back to trips
         </ion-item>
         <!-- <ion-item menu-close href="#/app/{{trip_id}}/tripDetails">

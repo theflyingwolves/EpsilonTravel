@@ -1,3 +1,26 @@
-<<<<<<< HEAD
 /* Empty. Add your own CSS if you like */
 /*********** Receipts ***********/
+.icon-search {
+  	color: rgb(235, 77, 108);
+}
+.icon-events {
+	color: rgb(94, 133, 228); 
+}
+.icon-localinfo {
+	color: rgb(62, 182, 133);
+}
+.icon-food {
+	color: rgb(225, 158, 53);
+}
+.icon-activities {
+	color: rgb(225, 75, 48);
+}
+.icon-receipt {
+	color: rgb(52, 176, 79);
+}
+.icon-trip {
+	color: rgb(14, 96, 173);
+}
+.icon-back {
+	color: rgb(202, 201, 207);
+}
