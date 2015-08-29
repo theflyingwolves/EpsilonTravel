@@ -498,9 +498,67 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
+.controller('ReceiptsCtrl', function($scope, $ionicModal, ReceiptService, CameraService) {
+  $scope.receiptDetails = {
+    title: '',
+    description: '',
+    date: '',
+    imgUrl: '',
+    price: '',
+    id: ''
+  };
+
+  $scope.loadReceipts = function() {
+    $scope.receipts = ReceiptService.all();
+  };
+
+  $scope.addNewRecipt = function() {
+    $ionicModal.fromTemplateUrl('templates/add-new-receipt.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      modal.show();
+    });
+  };
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.comfirmReceipt = function() {
+    ReceiptService.add($scope.receiptDetails);
+    $scope.closeModal();
+    $scope.receiptDetails = {
+      title: '',
+      description: '',
+      date: '',
+      imgUrl: '',
+      price: '',
+      id: ''
+    };
+  };
+
+  $scope.takePicture = function() {
+    CameraService.getPicture().then(function(imageURI) {
+      $scope.receiptDetails.imgUrl = imageURI;
+    }, function(err) {
+      console.err(err);
+    });
+  }
+})
+
+.controller('ReceiptCtrl', function($scope, $stateParams, $ionicHistory, ReceiptService) {
+  $scope.receiptId = $stateParams.receiptId;
+  $scope.receiptDetails = ReceiptService.get($scope.receiptId);
+
+  $scope.comfirmReceipt = function() {
+    ReceiptService.update($scope.receiptDetails);
+    $ionicHistory.goBack();
+  }
+})
+
 .controller('PlaylistsCtrl', function($scope, $stateParams) {
 })
 
 ;
-
-

@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 // .config(['$httpProvider', function($httpProvider) {
 //         $httpProvider.defaults.useXDomain = true;
@@ -124,7 +124,17 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       views: {
         'menuContent': {
           templateUrl: 'templates/receipts.html',
-          controller: 'PlaylistsCtrl'
+          controller: 'ReceiptsCtrl'
+        }
+      }
+    })
+
+    .state('app.receipt', {
+      url: '/receipt/:receiptId',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/receipt.html',
+          controller: 'ReceiptCtrl'
         }
       }
     })

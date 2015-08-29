@@ -1,5 +1,18 @@
-<ion-view view-title="Search">
-  <ion-content>
-    <h1>Receipts</h1>
-  </ion-content>
+<ion-view view-title="Receipts" ng-init="loadReceipts()">
+	<ion-nav-buttons side="right">
+  		<button class="button" ng-click="addNewRecipt()">
+    	Add
+  		</button>
+	</ion-nav-buttons>
+  		<ion-content>
+    		<ion-list>
+		        <ion-item class="item-thumbnail-left" ng-repeat="receipt in receipts" href="#/app/receipt/{{receipt.id}}">
+		          <img ng-src={{receipt.imgUrl}} alt="receipt thumbnail" />
+		          <h2>{{receipt.title}}</h2>
+		          <p>{{receipt.description}}</p>
+		          <p>{{receipt.date}}</p>
+		          <p>S${{receipt.price}}</p>
+		        </ion-item>
+		    </ion-list>
+	</ion-content>
 </ion-view>
