@@ -136,15 +136,12 @@ angular.module('starter.controllers', [])
   ];
 })
 
-<<<<<<< HEAD
-.controller('EventsCtrl', function($scope, $http, $stateParams, $ionicModal) {
-=======
 .controller('AccountCtrl', function($scope, $ionicModal) {
 
 })
 
-.controller('EventsCtrl', function($scope, $http, $stateParams) {
->>>>>>> c87a0a925105c38076a60979fb7b0b959fa09055
+.controller('EventsCtrl', function($scope, $http, $stateParams, $ionicModal) {
+
   $scope.eventlists = [];
   $scope.eventDetail = {
       title: "",
@@ -252,8 +249,17 @@ angular.module('starter.controllers', [])
 
   $scope.RequestEventDetail = function(){
 
-    // $http.get("someapi")
-    //   .success(function(response) {$scope.names = response.records;});
+    // $http.post('http://hack.waw.li', {
+    //   "database":"event",
+    //   "query": "find",
+    //   "data": $scope.eventDetail
+    // }).
+    // then(function(response) {
+    //   $scope.modal.hide();
+    //   $scope.Requesteventlists();
+    // }, function(response) {
+    //   // handle error
+    // });
 
 
 
