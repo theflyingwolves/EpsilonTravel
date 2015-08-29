@@ -53,4 +53,45 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
+})
+
+.controller('ReceiptCtrl', function($scope, $ionicModal, ReceiptService) {
+  $scope.receiptDetails = {
+    title: '',
+    description: '',
+    date: '',
+    imgUrl: '',
+    price: '',
+    id: ''
+  };
+  $scope.loadReceipts = function() {
+    $scope.receipts = ReceiptService.all();
+  };
+
+  $scope.addNewRecipt = function() {
+    $ionicModal.fromTemplateUrl('templates/add-new-receipt.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      modal.show();
+    });
+  };
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.comfirmReceipt = function() {
+    ReceiptService.add($scope.receiptDetails);
+    $scope.closeModal();
+    $scope.receiptDetails = {
+      title: '',
+      description: '',
+      date: '',
+      imgUrl: '',
+      price: '',
+      id: ''
+    };
+  }
 });
