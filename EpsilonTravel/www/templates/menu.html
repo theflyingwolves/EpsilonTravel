@@ -12,7 +12,7 @@
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
 
-  <ion-side-menu side="left">
+  <ion-side-menu side="left" ng-init="updateTripId();">
     <ion-header-bar class="bar-stable">
       <h1 class="title">Trip Name</h1>
     </ion-header-bar>
@@ -22,27 +22,37 @@
           Search
         </ion-item>
  -->        
-        <ion-item menu-close href="#/app/search">
+        <ion-item menu-close href="#{{join_path('search');}}">
           Search
         </ion-item>
-        <ion-item menu-close href="#/app/1/events">
+        <ion-item menu-close href="#{{join_path('events');}}">
           Events
         </ion-item>
-        <ion-item menu-close href="#/app/local">
+        <ion-item menu-close href="#{{join_path('local');}}">
           Local Info
         </ion-item>
-        <ion-item menu-close href="#/app/food">
+        <ion-item menu-close href="#{{join_path('food');}}">
           Food
         </ion-item>
-        <ion-item menu-close href="#/app/activities">
+        <ion-item menu-close href="#{{join_path('activities');}}">
           Activities
         </ion-item>
-        <ion-item menu-close href="#/app/receipts">
+        <ion-item menu-close href="#{{join_path('receipts');}}">
           Receipt
         </ion-item>
-        <ion-item menu-close href="#/app/account">
+        <!-- <ion-item menu-close href="#/app/{{trip_id}}/account">
           Account
+        </ion-item> -->
+        <!-- <ion-item menu-close ng-click="test_function();"> -->
+        <ion-item menu-close href="#{{join_path('tripDetails');}}">
+          Trip details
         </ion-item>
+        <ion-item menu-close href="#{{trips_path();}}">
+          Back to trips
+        </ion-item>
+        <!-- <ion-item menu-close href="#/app/{{trip_id}}/tripDetails">
+          Back to trips
+        </ion-item> -->
       </ion-list>
     </ion-content>
   </ion-side-menu>

@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $stateParams, $location) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -43,6 +43,22 @@ angular.module('starter.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
+
+  $scope.trip_id = "";
+  $scope.updateTripId = function () {
+    console.log("trip id update");
+    console.log($stateParams.trip_id);
+    $scope.trip_id = $stateParams.trip_id;
+  }
+
+  $scope.join_path = function(things_to_append){
+    return ("/app/"+$stateParams.user_id+"/"+$stateParams.trip_id+"/"+things_to_append);
+   }
+
+  $scope.trips_path = function(){
+    return ("/app/"+$stateParams.user_id+"/trips");
+   }
+
 
 })
 
@@ -113,12 +129,12 @@ angular.module('starter.controllers', [])
 
     $http.post($scope.serverUrl+"/login",$scope.credential)
     .success(function(res){
-      $scope.credential = {};
+      console.log(res);
       if (res.status != "success") {
         $scope.showConfirm("Log In Failed");
       } else {
         console.log("Redirecting");
-        $window.location.href = "#/trips";
+        $window.location.href = ("#/app/"+res.message._id+"/trips");
       }
     })
 
@@ -132,34 +148,175 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('TripCtrl',function($scope){
-  $scope.tripList = {};
+.controller('TripCtrl',function($scope, $stateParams, $ionicModal, $http){
+  $scope.tripList = [];
+  $scope.tripDetail = {
+      title: "",
+      startdate: "",
+      enddate: "",
+      basecity: "",
+      destination: "",
+      user_id: $stateParams.user_id
+  }
 
-  $scope.initTripList = function(){
-      $scope.tripList = [{
-        name: "Trip 1"
-      },{
-        name: "Trip 2"
-      }];
+  
+
+  user_id = $stateParams.user_id;
+  $scope.RequestTriplists = function(){
+
+    $http.post('http://hack.waw.li', {
+      "database":"trip",
+      "query": "find",
+      "data": {user_id:$stateParams.user_id}
+    }).
+    then(function(response) {
+      $scope.tripList = response.data.data;
+      console.log($scope.tripList);
+    }, function(response) {
+      // handle error
+    });
+  }
+
+
+  // handle the add button
+  $ionicModal.fromTemplateUrl('templates/tripModal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
   };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  $scope.confirmAdd = function() {
+    $http.post('http://hack.waw.li', {
+      "database":"trip",
+      "query": "insert",
+      "data": $scope.tripDetail
+    }).
+    then(function(response) {
+      $scope.modal.hide();
+      $scope.RequestTriplists();
+
+      $scope.tripDetail = {
+        title: "",
+        startdate: "",
+        enddate: "",
+        basecity: "",
+        destination: "",
+        user_id: $stateParams.user_id
+      }
+    }, function(response) {
+      // handle error
+      $scope.tripDetail = {
+        title: "",
+        startdate: "",
+        enddate: "",
+        basecity: "",
+        destination: "",
+        user_id: $stateParams.user_id
+      }
+
+    });
+
+      
+    
+  };
+  $scope.cancelAdd = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+  // handle swipe and delete
+   $scope.listCanSwipe = true
+   $scope.deleteItem = function(trip_idx){
+      var e_id = $scope.tripList[trip_idx]._id;
+      $scope.tripList.splice(trip_idx, 1);  
+      
+      // $http.post('http://hack.waw.li', {
+      //   "database":"event",
+      //   "query": "delete",
+      //   "data": {_id:e_id}
+      // }).
+      // then(function(response) {
+        
+      // }, function(response) {
+      //   // handle error
+      // });
+
+   }
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
+
+.controller('tripDetailCtrl', function($scope, $http, $stateParams) {
+  $scope.tripDetail = {};
+  $scope.editing = false;
+
+  $scope.edit = function () {
+    $scope.editing = true;
+  }
+
+  $scope.finish = function () {
+    $scope.editing = false;
+
+    $http.post('http://hack.waw.li', {
+      "database":"trip",
+      "query": "delete",
+      "data": {
+        _id:$stateParams.trip_id
+      }
+    }).
+    then(function(response) {
+      $http.post('http://hack.waw.li', {
+        "database":"trip",
+        "query": "insert",
+        "data": $scope.tripDetail
+      }).
+      then(function(response) {
+        
+      }, function(response) {
+        // handle error
+      });
+    }, function(response) {
+      // handle error
+    });
+  }
+
+  $scope.RequestTripDetail = function(){
+
+    $http.post('http://hack.waw.li', {
+      "database":"trip",
+      "query": "find",
+      "data": {_id:$stateParams.trip_id}
+    }).
+    then(function(response) {
+      $scope.tripDetail = response.data.data[0]
+    }, function(response) {
+      // handle error
+    });
+  }
+
 })
 
 .controller('AccountCtrl', function($scope, $ionicModal) {
 
 })
 
-.controller('EventsCtrl', function($scope, $http, $stateParams, $ionicModal) {
+.controller('EventsCtrl', function($scope, $http, $stateParams, $ionicModal, $location) {
 
   $scope.eventlists = [];
   $scope.eventDetail = {
@@ -168,32 +325,27 @@ angular.module('starter.controllers', [])
       time: "",
       location: "",
       description: "",
-      trip_id: "oAIaoXvX0cT394VU"
+      trip_id: $stateParams.trip_id
     }
 
   trip_id = $stateParams.trip_id;
   $scope.Requesteventlists = function(){
 
-  $http.post('http://hack.waw.li', {
-    "database":"event",
-    "query": "find",
-    "data": {trip_id:"oAIaoXvX0cT394VU"}
-  }).
-  then(function(response) {
-    console.log(response)
-    $scope.eventlists = response.data.data;
-  }, function(response) {
-    // handle error
-  });
-
-    // $http.get("someapi")
-    //   .success(function(response) {$scope.eventlists = response.eventlists;});
-    // $scope.eventlists = [
-    //   { title: 'Meeting with Ms K', id: 5 , time:"Sep 1st 9am", trip_id:trip_id},
-    //   { title: 'Meeting with Mr M', id: 6 , time:"Sep 1st 11am", trip_id:trip_id}
-    // ];
+    $http.post('http://hack.waw.li', {
+      "database":"event",
+      "query": "find",
+      "data": {trip_id:$stateParams.trip_id}
+    }).
+    then(function(response) {
+      $scope.eventlists = response.data.data;
+      console.log($scope.eventlists);
+    }, function(response) {
+      // handle error
+    });
   }
 
+
+  // handle the add button
   $ionicModal.fromTemplateUrl('templates/eventModal.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -215,18 +367,28 @@ angular.module('starter.controllers', [])
     then(function(response) {
       $scope.modal.hide();
       $scope.Requesteventlists();
+
+       $scope.eventDetail = {
+        title: "",
+        date: "",
+        time: "",
+        location: "",
+        description: "",
+        trip_id: $stateParams.trip_id
+      }
     }, function(response) {
       // handle error
+       $scope.eventDetail = {
+        title: "",
+        date: "",
+        time: "",
+        location: "",
+        description: "",
+        trip_id: $stateParams.trip_id
+      }
     });
 
-    $scope.eventDetail = {
-      title: "",
-      date: "",
-      time: "",
-      location: "",
-      description: "",
-      trip_id: "oAIaoXvX0cT394VU"
-    }
+     
     
   };
   $scope.cancelAdd = function() {
@@ -245,6 +407,32 @@ angular.module('starter.controllers', [])
     // Execute action
   });
 
+  // handle swipe and delete
+   $scope.listCanSwipe = true
+   $scope.deleteItem = function(event_idx){
+      var e_id = $scope.eventlists[event_idx]._id;
+      $scope.eventlists.splice(event_idx, 1);  
+      
+      $http.post('http://hack.waw.li', {
+        "database":"event",
+        "query": "delete",
+        "data": {_id:e_id}
+      }).
+      then(function(response) {
+        
+      }, function(response) {
+        // handle error
+      });
+
+   }
+
+   // append to create new url
+   $scope.join_path = function(things_to_append){
+    console.log("hello");
+    console.log($location.url()+"/"+things_to_append);
+    return $location.url()+"/"+things_to_append;
+   }
+
 })
 
 .controller('EventCtrl', function($scope, $http, $stateParams) {
@@ -258,37 +446,51 @@ angular.module('starter.controllers', [])
   $scope.finish = function () {
     $scope.editing = false;
 
-    // $http.post('/someUrl', {event_data:$scope.eventDetail}).
-    // then(function(response) {
-      
-    // }, function(response) {
-    //   // handle error
-    // });
+    $http.post('http://hack.waw.li', {
+      "database":"event",
+      "query": "delete",
+      "data": {
+        _id:$stateParams.event_id
+      }
+    }).
+    then(function(response) {
+      $http.post('http://hack.waw.li', {
+        "database":"event",
+        "query": "insert",
+        "data": $scope.eventDetail
+      }).
+      then(function(response) {
+        
+      }, function(response) {
+        // handle error
+      });
+    }, function(response) {
+      // handle error
+    });
   }
 
   $scope.RequestEventDetail = function(){
 
-    // $http.post('http://hack.waw.li', {
-    //   "database":"event",
-    //   "query": "find",
-    //   "data": $scope.eventDetail
-    // }).
-    // then(function(response) {
-    //   $scope.modal.hide();
-    //   $scope.Requesteventlists();
-    // }, function(response) {
-    //   // handle error
-    // });
+    $http.post('http://hack.waw.li', {
+      "database":"event",
+      "query": "find",
+      "data": {_id:$stateParams.event_id}
+    }).
+    then(function(response) {
+      $scope.eventDetail = response.data.data[0]
+    }, function(response) {
+      // handle error
+    });
 
 
 
-    $scope.eventDetail = {
-      title: "Meeting with Ms K",
-      date: "Sep 1st",
-      time: "9am",
-      location: "NUS",
-      description: "discuss some important issues"
-    }
+    // $scope.eventDetail = {
+    //   title: "Meeting with Ms K",
+    //   date: "Sep 1st",
+    //   time: "9am",
+    //   location: "NUS",
+    //   description: "discuss some important issues"
+    // }
   }
 
 })
@@ -298,4 +500,69 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
-});
+})
+
+.controller('ReceiptsCtrl', function($scope, $ionicModal, ReceiptService, CameraService) {
+  $scope.receiptDetails = {
+    title: '',
+    description: '',
+    date: '',
+    imgUrl: '',
+    price: '',
+    id: ''
+  };
+
+  $scope.loadReceipts = function() {
+    $scope.receipts = ReceiptService.all();
+  };
+
+  $scope.addNewRecipt = function() {
+    $ionicModal.fromTemplateUrl('templates/add-new-receipt.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      modal.show();
+    });
+  };
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.comfirmReceipt = function() {
+    ReceiptService.add($scope.receiptDetails);
+    $scope.closeModal();
+    $scope.receiptDetails = {
+      title: '',
+      description: '',
+      date: '',
+      imgUrl: '',
+      price: '',
+      id: ''
+    };
+  };
+
+  $scope.takePicture = function() {
+    CameraService.getPicture().then(function(imageURI) {
+      $scope.receiptDetails.imgUrl = imageURI;
+    }, function(err) {
+      console.err(err);
+    });
+  }
+})
+
+.controller('ReceiptCtrl', function($scope, $stateParams, $ionicHistory, ReceiptService) {
+  $scope.receiptId = $stateParams.receiptId;
+  $scope.receiptDetails = ReceiptService.get($scope.receiptId);
+
+  $scope.comfirmReceipt = function() {
+    ReceiptService.update($scope.receiptDetails);
+    $ionicHistory.goBack();
+  }
+})
+
+.controller('PlaylistsCtrl', function($scope, $stateParams) {
+})
+
+;

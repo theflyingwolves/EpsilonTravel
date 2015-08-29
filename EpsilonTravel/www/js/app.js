@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 // .config(['$httpProvider', function($httpProvider) {
 //         $httpProvider.defaults.useXDomain = true;
@@ -39,16 +39,26 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   })
 
   .state('app', {
-    url: '/app',
+    url: '/app/:user_id/:trip_id',
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
 
   .state('trips',{
-    url: '/trips',
+    url: '/app/:user_id/trips',
     templateUrl: 'templates/trips.html',
     controller: 'TripCtrl'
+  })
+
+  .state('app.trip_details', {
+    url: '/tripDetails',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/tripDetails.html',
+        controller:'tripDetailCtrl'
+      }
+    }
   })
 
   .state('app.accounts', {
@@ -71,7 +81,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   })
 
   .state('app.events', {
-      url: '/:trip_id/events',
+      url: '/events',
       views: {
         'menuContent': {
           templateUrl: 'templates/events.html',
@@ -81,7 +91,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   })
 
   .state('app.event', {
-      url: '/:trip_id/events/:event_id',
+      url: '/events/:event_id',
       views: {
         'menuContent': {
           templateUrl: 'templates/event.html',
@@ -114,7 +124,17 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       views: {
         'menuContent': {
           templateUrl: 'templates/receipts.html',
-          controller: 'PlaylistsCtrl'
+          controller: 'ReceiptsCtrl'
+        }
+      }
+    })
+
+    .state('app.receipt', {
+      url: '/receipt/:receiptId',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/receipt.html',
+          controller: 'ReceiptCtrl'
         }
       }
     })

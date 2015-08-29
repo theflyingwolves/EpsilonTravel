@@ -6,12 +6,17 @@
 
 
   <ion-content>
-    <ion-list>
-      <ion-item ng-repeat="event in eventlists" href="#/app/{{event.trip_id}}/events/{{event.id}}">
+    <ion-list can-swipe="listCanSwipe">
+      <ion-item ng-repeat="event in eventlists" href="#{{generate_path(event._id);}}">
+      <!-- <ion-item ng-repeat="event in eventlists" href="#/app/{{event.trip_id}}/events/{{event._id}}"> -->
         {{event.title}}
         <span class="item-note">
 	      {{event.time}}
 	    </span>
+	    <ion-option-button class="button-assertive"
+                       ng-click="deleteItem($index);">
+      		delete
+    	</ion-option-button>
       </ion-item>
     </ion-list>
   </ion-content>

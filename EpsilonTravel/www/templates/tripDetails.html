@@ -1,0 +1,51 @@
+<ion-view view-title="Trip" ng-init="RequestTripDetail();">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear button-positive" 
+    ng-show="!editing"
+    ng-click="edit();">Edit</button>
+    <button class="button button-icon button-clear button-positive" 
+    ng-show="editing"
+    ng-click="finish();">Finish</button>
+  </ion-nav-buttons>
+
+  <ion-content>
+    <div class="list">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Title</span>
+        <div class="item-content" ng-show="!editing">
+          {{tripDetail.title}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="tripDetail.title">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Base city</span>
+        <div class="item-content" ng-show="!editing">
+          {{tripDetail.basecity}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="tripDetail.basecity">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Destination</span>
+        <div class="item-content" ng-show="!editing">
+          {{tripDetail.destination}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="tripDetail.destination">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Start Date</span>
+        <div class="item-content" ng-show="!editing">
+          {{tripDetail.startdate}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="tripDetail.startdate">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">End Date</span>
+        <div class="item-content" ng-show="!editing">
+          {{tripDetail.enddate}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="tripDetail.enddate">
+      </label>
+
+    </div>
+  </ion-content>
+</ion-view>
