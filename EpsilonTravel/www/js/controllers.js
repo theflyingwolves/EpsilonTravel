@@ -126,12 +126,10 @@ angular.module('starter.controllers', [])
   ];
 })
 
-<<<<<<< HEAD
 .controller('AccountCtrl', function($scope, $ionicModal) {
 
 })
 
-=======
 .controller('EventsCtrl', function($scope, $http, $stateParams) {
   $scope.eventlists = [];
   trip_id = $stateParams.trip_id;
