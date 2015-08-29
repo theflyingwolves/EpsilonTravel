@@ -1,0 +1,47 @@
+<ion-view view-title="{{templateDetail.title}}" ng-init="RequestTemplateDetail();">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear button-positive" 
+    ng-show="!editing"
+    ng-click="edit();">Edit</button>
+    <button class="button button-icon button-clear button-positive" 
+    ng-show="editing"
+    ng-click="finish();">Finish</button>
+  </ion-nav-buttons>
+
+  <ion-content>
+    <div class="list">
+      <!-- <label class="item item-input item-stacked-label">
+        <span class="input-label">Title</span>
+        <div class="item-content" ng-show="!editing">
+          {{templateDetail.title}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="templateDetail.title">
+      </label> -->
+      
+      <ion-item ng-repeat="packingItem in templateDetail.items">
+        <div class="item-checkbox" ng-show="!editing">
+          <label class="checkbox" ng-click="toggle($index);">
+             <input type="checkbox">
+           </label>
+           {{packingItem}}
+        </div>
+
+        <!-- <li class="item item-checkbox" ng-show="!editing">
+           <label class="checkbox">
+             <input type="checkbox">
+           </label>
+           {{packingItem}}
+        </li>
+ -->        
+        <!-- <span class="item-note">
+        {{event.date}} {{event.time}}
+        </span> -->
+        <!-- <input type="text" ng-show="editing" ng-model="templateDetail.title"> -->
+        <input type="text" ng-show="editing" ng-model="packingItem">
+        <!-- <input type="text" ng-show="editing" ng-model="templateDetail.items[$index]"> -->
+      </ion-item>
+
+
+    </div>
+  </ion-content>
+</ion-view>

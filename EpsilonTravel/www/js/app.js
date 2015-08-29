@@ -149,6 +149,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     })
 
+    .state('app.packing', {
+      url: '/packing_lists',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/packingTemplates.html',
+          controller: 'packsCtrl'
+        }
+      }
+    })
+
+    .state('app.template', {
+      url: '/packing_lists/:template_id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/packingList.html',
+          controller: 'packlistCtrl'
+        }
+      }
+    })
+
   .state('app.single', {
     url: '/playlists/:playlistId',
     views: {
