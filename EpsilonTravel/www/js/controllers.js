@@ -495,6 +495,10 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('LocalCtrl', function($scope, $stateParams) {
+
+})
+
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
