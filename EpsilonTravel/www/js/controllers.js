@@ -9,6 +9,10 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
+  $scope.init = function() {
+    console.log("Init");
+  };
+
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -39,6 +43,76 @@ angular.module('starter.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
+
+})
+
+.controller('HomeCtrl', function($scope, $ionicModal, $location, $http){
+  $scope.credential = {};
+
+  $scope.registerInfo = {};
+
+  $scope.loginModal;
+  $scope.registerModal;
+
+  $scope.serverUrl = "http://hack.waw.li";
+
+  $ionicModal.fromTemplateUrl('templates/login.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.loginModal = modal;
+  });
+
+  $ionicModal.fromTemplateUrl('templates/register.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.registerModal = modal;
+  });
+
+  $scope.showLogin = function(){
+    $scope.loginModal.show();
+  };
+
+  $scope.closeLogin = function(){
+    $scope.loginModal.hide();
+  };
+
+  $scope.showRegister = function(){
+    $scope.registerModal.show();
+  };
+
+  $scope.closeRegister = function(){
+    $scope.registerModal.hide();
+  };
+
+  $scope.register = function(){
+    $scope.registerModal.hide();
+    $http.post($scope.serverUrl+"/signup",$scope.registerInfo)
+    .success(function(res){
+      if(res.status == "success"){
+        console.log("Register Success");
+      } else {
+        console.log(res.message);
+      }
+    })
+    .error(function(err){
+      console.log(err);
+    });
+  };
+
+  $scope.login = function() {
+    $scope.loginModal.hide();
+
+    $http.post($scope.serverUrl+"/login",$scope.credential)
+    .success(function(res){
+      console.log(res);
+    })
+    .error(function(err){
+      console.log(err);
+    });
+  };
+
+  $scope.initAcc = function() {
+  };
 })
 
 .controller('PlaylistsCtrl', function($scope) {
@@ -50,6 +124,10 @@ angular.module('starter.controllers', [])
     { title: 'Rap', id: 5 },
     { title: 'Cowbell', id: 6 }
   ];
+})
+
+.controller('AccountCtrl', function($scope, $ionicModal) {
+
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
