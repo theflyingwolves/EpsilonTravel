@@ -1,0 +1,51 @@
+<ion-view view-title="event" ng-init="RequestEventDetail();">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear button-positive" 
+    ng-show="!editing"
+    ng-click="edit();">Edit</button>
+    <button class="button button-icon button-clear button-positive" 
+    ng-show="editing"
+    ng-click="finish();">Finish</button>
+  </ion-nav-buttons>
+
+  <ion-content>
+    <div class="list">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Title</span>
+        <div class="item-content" ng-show="!editing">
+          {{eventDetail.title}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="eventDetail.title">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Date</span>
+        <div class="item-content" ng-show="!editing">
+          {{eventDetail.date}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="eventDetail.date">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Time</span>
+        <div class="item-content" ng-show="!editing">
+          {{eventDetail.time}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="eventDetail.time">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Location</span>
+        <div class="item-content" ng-show="!editing">
+          {{eventDetail.location}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="eventDetail.location">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Description</span>
+        <div class="item-content" ng-show="!editing">
+          {{eventDetail.description}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="eventDetail.description">
+      </label>
+
+    </div>
+  </ion-content>
+</ion-view>

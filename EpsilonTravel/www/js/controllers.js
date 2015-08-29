@@ -126,7 +126,53 @@ angular.module('starter.controllers', [])
   ];
 })
 
+<<<<<<< HEAD
 .controller('AccountCtrl', function($scope, $ionicModal) {
+
+})
+
+=======
+.controller('EventsCtrl', function($scope, $http, $stateParams) {
+  $scope.eventlists = [];
+  trip_id = $stateParams.trip_id;
+  $scope.Requesteventlists = function(){
+
+    // $http.get("someapi")
+    //   .success(function(response) {$scope.eventlists = response.eventlists;});
+    $scope.eventlists = [
+      { title: 'Meeting with Ms K', id: 5 , time:"Sep 1st 9am", trip_id:trip_id},
+      { title: 'Meeting with Mr M', id: 6 , time:"Sep 1st 11am", trip_id:trip_id}
+    ];
+  }
+
+})
+
+.controller('EventCtrl', function($scope, $http, $stateParams) {
+  $scope.eventDetail = {};
+  $scope.editing = false;
+
+  $scope.edit = function () {
+    $scope.editing = true;
+  }
+
+  $scope.finish = function () {
+    $scope.editing = false;
+
+    // need to post to server
+  }
+
+  $scope.RequestEventDetail = function(){
+
+    // $http.get("someapi")
+    //   .success(function(response) {$scope.names = response.records;});
+    $scope.eventDetail = {
+      title: "Meeting with Ms K",
+      date: "Sep 1st",
+      time: "9am",
+      location: "NUS",
+      description: "discuss some important issues"
+    }
+  }
 
 })
 
