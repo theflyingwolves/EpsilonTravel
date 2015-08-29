@@ -1,0 +1,35 @@
+  <ion-modal-view view-title="event">
+
+    <ion-content>
+      <div class="list">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Title</span>
+          <input type="text" ng-model="eventDetail.title">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Date</span>
+          <input type="text" ng-model="eventDetail.date">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Time</span>
+          <input type="text" ng-model="eventDetail.time">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Location</span>
+          <input type="text" ng-model="eventDetail.location">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Description</span>
+          <input type="text" ng-model="eventDetail.description">
+        </label>
+
+        <button class="button button-block button-positive" ng-click="confirmAdd();">
+          Confirm
+        </button>
+        <button class="button button-block button-stable" ng-click="cancelAdd();">
+          Cancel
+        </button>
+
+      </div>
+    </ion-content>
+  </ion-modal-view>

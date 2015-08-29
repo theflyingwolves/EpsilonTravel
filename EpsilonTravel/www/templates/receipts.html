@@ -6,8 +6,8 @@
 	</ion-nav-buttons>
   		<ion-content>
     		<ion-list>
-		        <ion-item ng-repeat="receipt in receipts" href="#/app/receipt/{{receipt.id}}">
-		          <img class="receipt-img-thumbnail" ng-src={{receipt.imgUrl}} alt="receipt thumbnail" />
+		        <ion-item class="item-thumbnail-left" ng-repeat="receipt in receipts" href="#/app/receipt/{{receipt.id}}">
+		          <img ng-src={{receipt.imgUrl}} alt="receipt thumbnail" />
 		          <h2>{{receipt.title}}</h2>
 		          <p>{{receipt.description}}</p>
 		          <p>{{receipt.date}}</p>

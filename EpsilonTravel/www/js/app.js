@@ -6,6 +6,13 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
+// .config(['$httpProvider', function($httpProvider) {
+//         $httpProvider.defaults.useXDomain = true;
+//         $httpProvider.defaults.headers.common = 'Content-Type: application/json';
+//         delete $httpProvider.defaults.headers.common['X-Requested-With'];
+//     }
+// ])
+
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -13,8 +20,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
     }
+
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
@@ -25,11 +32,33 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-    .state('app', {
+  .state('home',{
+    url:'/home',
+    templateUrl:'templates/home.html',
+    controller: 'HomeCtrl'
+  })
+
+  .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
+  })
+
+  .state('trips',{
+    url: '/trips',
+    templateUrl: 'templates/trips.html',
+    controller: 'TripCtrl'
+  })
+
+  .state('app.accounts', {
+    url: '/accounts',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/accounts.html',
+        controller:'AccountCtrl'
+      }
+    }
   })
 
   .state('app.search', {
@@ -42,11 +71,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   .state('app.events', {
-      url: '/events',
+      url: '/:trip_id/events',
       views: {
         'menuContent': {
           templateUrl: 'templates/events.html',
-          controller: 'PlaylistsCtrl'
+          controller: 'EventsCtrl'
+        }
+      }
+  })
+
+  .state('app.event', {
+      url: '/:trip_id/events/:event_id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/event.html',
+          controller: 'EventCtrl'
         }
       }
   })
@@ -59,15 +98,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
       }
     })
-    .state('app.activities', {
-      url: '/activities',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/activities.html',
-          controller: 'PlaylistsCtrl'
-        }
+
+  .state('app.activities', {
+    url: '/activities',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/activities.html',
+        controller: 'PlaylistsCtrl'
       }
-    })
+    }
+  })
 
     .state('app.receipts', {
       url: '/receipts',
@@ -108,6 +148,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     }
   });
+
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/receipts');
+  $urlRouterProvider.otherwise('/home');
 });

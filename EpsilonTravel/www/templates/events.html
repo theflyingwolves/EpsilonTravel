@@ -1,5 +1,18 @@
-<ion-view view-title="Playlist">
+<ion-view view-title="Event Management" ng-init="Requesteventlists();">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear button-positive" 
+    ng-click="openModal();">Add</button>
+  </ion-nav-buttons>
+
+
   <ion-content>
-    <h1>Events</h1>
+    <ion-list>
+      <ion-item ng-repeat="event in eventlists" href="#/app/{{event.trip_id}}/events/{{event.id}}">
+        {{event.title}}
+        <span class="item-note">
+	      {{event.time}}
+	    </span>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>
