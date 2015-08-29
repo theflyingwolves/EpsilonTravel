@@ -38,10 +38,11 @@
 			</nav>
 
 			<!-- <div class="jumbotron main-container"> -->
+				<a id="dlink"  style="display:none;"></a>
+				<button type="button" class="btn btn-default pull-right" ng-click="export('trip')" style="margin-right: 15px; margin-top:10px;">Export to Excel</button>
 				<div class="alert alert-info" role="alert">Total Expense: {{totalExpense}}</div>
-
 				<div class="table-container">
-					<table class="table table-bordered table-hover">
+					<table class="table table-bordered table-hover" id="trips">
 						<tr>
 							<td>Title</td>
 							<td>Destination</td>
@@ -85,7 +86,7 @@
 	        <h4 class="modal-title" id="myModalLabel">Receipts for {{selectedTrip.title}}</h4>
 	      </div>
 	      <div class="modal-body">
-	        <table class="table table-bordered table-hover">
+	        <table class="table table-bordered table-hover" id="trip">
 						<tr>
 							<td>Title</td>
 							<td>Date</td>
@@ -104,6 +105,9 @@
 
 					</table>
 	      </div>
+	      <div class="modal-footer">
+        	<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="exportReceipts('trip')">Export to Excel</button>
+      	</div>
 	    </div>
   	</div>
 	</div>
