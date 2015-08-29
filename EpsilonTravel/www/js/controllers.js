@@ -502,7 +502,7 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('ReceiptsCtrl', function($scope, $ionicModal, ReceiptService, CameraService) {
+.controller('ReceiptsCtrl', function($scope, $ionicModal, ReceiptService, CameraService, $location) {
   $scope.receiptDetails = {
     title: '',
     description: '',
@@ -550,6 +550,13 @@ angular.module('starter.controllers', [])
       console.err(err);
     });
   }
+
+  $scope.join_path = function(things_to_append){
+    // console.log("hello");
+    // console.log($location.url()+"/"+things_to_append);
+    return $location.url()+"/"+things_to_append;
+   }
+
 })
 
 .controller('ReceiptCtrl', function($scope, $stateParams, $ionicHistory, ReceiptService) {
