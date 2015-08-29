@@ -46,7 +46,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('HomeCtrl', function($scope, $ionicModal, $location, $http){
+.controller('HomeCtrl', function($scope, $ionicModal, $ionicPopup,$location, $http){
   $scope.credential = {};
 
   $scope.registerInfo = {};
@@ -85,17 +85,24 @@ angular.module('starter.controllers', [])
   };
 
   $scope.register = function(){
+    console.log("Registering "+$scope.registerInfo);
     $scope.registerModal.hide();
     $http.post($scope.serverUrl+"/signup",$scope.registerInfo)
     .success(function(res){
       if(res.status == "success"){
-        console.log("Register Success");
+        $scope.showConfirm("Register Successful");
       } else {
-        console.log(res.message);
+        $scope.showConfirm("User Name Already Exists");
       }
     })
     .error(function(err){
       console.log(err);
+    });
+  };
+
+  $scope.showConfirm = function(message) {
+    var confirmPopup = $ionicPopup.confirm({
+     title: message
     });
   };
 
@@ -104,10 +111,13 @@ angular.module('starter.controllers', [])
 
     $http.post($scope.serverUrl+"/login",$scope.credential)
     .success(function(res){
-      console.log(res);
+      if (res.status != "success") {
+        $scope.showConfirm("Log In Failed");
+      }
     })
+
     .error(function(err){
-      console.log(err);
+      $scope.showConfirm(err);
     });
   };
 
