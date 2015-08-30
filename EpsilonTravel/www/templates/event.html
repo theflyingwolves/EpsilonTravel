@@ -1,12 +1,16 @@
 <ion-view view-title="{{eventTitle}}" ng-init="RequestEventDetail();">
-  <ion-nav-buttons side="right">
+<ion-nav-bar class="custom-bar custom-title">
+  <ion-nav-buttons>
     <button class="button button-icon button-clear button-positive" 
     ng-show="!editing"
-    ng-click="edit();">Edit</button>
+    ng-click="edit();" style="position:fixed; right:10px; color: rgb(163,163,163); font-weight:bold;">Edit</button>
     <button class="button button-icon button-clear button-positive" 
     ng-show="editing"
-    ng-click="finish();">Finish</button>
+    ng-click="finish();" style="position:fixed; right:10px; color: rgb(163,163,163); font-weight:bold;">Finish</button>
+    <button class="button button-icon button-clear ion-navicon-round" menu-toggle="left">
+        </button>
   </ion-nav-buttons>
+</ion-nav-bar>
 
   <ion-content>
     <div class="list">
