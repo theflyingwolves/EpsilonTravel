@@ -7,8 +7,11 @@
     <button class="button button-icon button-clear button-positive" 
     ng-show="editing"
     ng-click="finish();" style="position:fixed; right:10px; color: rgb(163,163,163); font-weight:bold;">Finish</button>
-    <button class="button button-icon button-clear ion-navicon-round" menu-toggle="left">
-        </button>
+    
+    <button ng-click="$ionicGoBack()" class="button back-button buttons  button-clear header-item"><i class="icon ion-ios-arrow-back"></i> 
+      <span class="back-text" style="transform: translate3d(0px, 0px, 0px);"></span></button>
+
+
   </ion-nav-buttons>
 </ion-nav-bar>
 
