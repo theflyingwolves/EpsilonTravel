@@ -1134,6 +1134,45 @@ angular.module('starter.controllers', [])
         comments:[]
       };
   };
+
+  $scope.item2bUpdate = {};
+
+  $scope.like = function(id) {
+    $http.post('http://hack.waw.li',{
+      "database":"food",
+      "query":"find",
+      "data":{
+        _id:id
+      }
+    })
+    .then(function(response){
+      var fooditem = response.data.data[0];
+      if(fooditem.rating == undefined) {
+        fooditem.rating = 0;
+      }
+
+      fooditem.rating += 1;
+
+      $http.post('http://hack.waw.li',{
+        "database":"food",
+        "query":"delete",
+        "data":{
+          _id:id
+        }
+      })
+      .then(function(response){
+        $http.post('http://hack.waw.li',{
+          "database":"food",
+          "query":"insert",
+          "data":fooditem
+        })
+        .then(function(response){
+          $scope.Requestfoodlists();
+        });
+      });
+    });
+  };
+
   $scope.confirmAdd = function() {
     $scope.foodDetail.rating = 0;
 
