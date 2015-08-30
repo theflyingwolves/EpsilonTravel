@@ -173,6 +173,10 @@ angular.module('starter.controllers', [])
     // handle error
   });
 
+  $scope.get_user_name = function(){
+    return $scope.user_name+"'s trip";  
+  }
+
   user_id = $stateParams.user_id;
   $scope.RequestTriplists = function(){
 
@@ -528,9 +532,10 @@ angular.module('starter.controllers', [])
   $scope.templatelist = [];
   $scope.templateDetail = {
       title: "",
-      items: {},
+      items: [],
+      selected: [],
       user_id: $stateParams.user_id
-    }
+  }
 
   $scope.RequestTemplatelist = function(){
 
@@ -571,27 +576,45 @@ angular.module('starter.controllers', [])
       $scope.modal.hide();
       
       $scope.templateDetail = {
-        title: "",
-        items: {},
-        user_id: $stateParams.user_id
+          title: "",
+          items: [],
+          selected: [],
+          user_id: $stateParams.user_id
       }
+      for (var i = 50 - 1; i >= 0; i--) {
+        $scope.templateDetail.items.push("");
+        // $scope.templateDetail.items.push("item"+i);
+        $scope.templateDetail.selected.push(false);
+      };
     }, function(response) {
       // handle error
       $scope.modal.hide();
       $scope.templateDetail = {
-        title: "",
-        items: {},
-        user_id: $stateParams.user_id
+          title: "",
+          items: [],
+          selected: [],
+          user_id: $stateParams.user_id
       }
+      for (var i = 50 - 1; i >= 0; i--) {
+        $scope.templateDetail.items.push("");
+        // $scope.templateDetail.items.push("item"+i);
+        $scope.templateDetail.selected.push(false);
+      };
     });   
   };
   $scope.cancelAdd = function() {
     $scope.modal.hide();
     $scope.templateDetail = {
-      title: "",
-      items: {},
-      user_id: $stateParams.user_id
+        title: "",
+        items: [],
+        selected: [],
+        user_id: $stateParams.user_id
     }
+    for (var i = 50 - 1; i >= 0; i--) {
+      $scope.templateDetail.items.push("");
+      // $scope.templateDetail.items.push("item"+i);
+      $scope.templateDetail.selected.push(false);
+    };
   };
   //Cleanup the modal when we're done with it!
   $scope.$on('$destroy', function() {
@@ -644,7 +667,64 @@ angular.module('starter.controllers', [])
 
   $scope.finish = function () {
     $scope.editing = false;
+    console.log($scope.templateDetail)
 
+    $http.post('http://hack.waw.li', {
+      "database":"packtemplate",
+      "query": "delete",
+      "data": {
+        _id:$stateParams.template_id
+      }
+    }).
+    then(function(response) {
+      $http.post('http://hack.waw.li', {
+        "database":"packtemplate",
+        "query": "insert",
+        "data": $scope.templateDetail
+      }).
+      then(function(response) {
+        console.log("success");
+      }, function(response) {
+        // handle error
+        console.log("error");
+      });
+    }, function(response) {
+      // handle error
+      console.log("error");
+    });
+  }
+
+  $scope.RequestTemplateDetail = function(){
+
+    $http.post('http://hack.waw.li', {
+      "database":"packtemplate",
+      "query": "find",
+      "data": {_id:$stateParams.template_id}
+    }).
+    then(function(response) {
+      console.log(response.data.data[0])
+      $scope.templateDetail = response.data.data[0]
+    }, function(response) {
+      // handle error
+    });
+
+    // $scope.templateDetail = {
+    //   title: "my_title",
+    //   items: ["item1","item2","item3","item4","item5"],
+    //   selected: [true, true, false, false, false],
+    //   user_id: 1
+    // }
+
+  }
+
+  $scope.update = function(idx){
+    // if ($scope.templateDetail.selected[idx]) {
+    //   $scope.templateDetail.selected[idx] = false
+    // }else{
+    //   $scope.templateDetail.selected[idx] = true
+    // }
+
+    // console.log($scope.templateDetail.selected);
     $http.post('http://hack.waw.li', {
       "database":"packtemplate",
       "query": "delete",
@@ -668,59 +748,8 @@ angular.module('starter.controllers', [])
     });
   }
 
-  $scope.RequestTemplateDetail = function(){
-
-    // $http.post('http://hack.waw.li', {
-    //   "database":"packtemplate",
-    //   "query": "find",
-    //   "data": {_id:$stateParams.template_id}
-    // }).
-    // then(function(response) {
-    //   $scope.templateDetail = response.data.data[0]
-    // }, function(response) {
-    //   // handle error
-    // });
-
-    $scope.templateDetail = {
-      title: "my_title",
-      items: ["item1","item2","item3","item4","item5"],
-      selected: [true, true, false, false, false],
-      user_id: 1
-    }
-
-  }
-
-  $scope.toggle = function(idx){
-    if ($scope.templateDetail.selected[idx]) {
-      $scope.templateDetail.selected[idx] = false
-    }else{
-      $scope.templateDetail.selected[idx] = true
-    }
-
-    // console.log($scope.templateDetail.selected);
-    // $http.post('http://hack.waw.li', {
-    //   "database":"packtemplate",
-    //   "query": "delete",
-    //   "data": {
-    //     _id:$stateParams.template_id
-    //   }
-    // }).
-    // then(function(response) {
-    //   $http.post('http://hack.waw.li', {
-    //     "database":"packtemplate",
-    //     "query": "insert",
-    //     "data": $scope.templateDetail
-    //   }).
-    //   then(function(response) {
-        
-    //   }, function(response) {
-    //     // handle error
-    //   });
-    // }, function(response) {
-    //   // handle error
-    // });
-    
-
+  $scope.has_item =  function(index){
+    return ($scope.templateDetail.items[index] == "")
   }
 
 })

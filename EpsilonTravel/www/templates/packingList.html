@@ -18,27 +18,18 @@
         <input type="text" ng-show="editing" ng-model="templateDetail.title">
       </label> -->
       
-      <ion-item ng-repeat="packingItem in templateDetail.items">
+      <ion-item ng-repeat="packingItem in templateDetail.items track by $index">
         <div class="item-checkbox" ng-show="!editing">
-          <label class="checkbox" ng-click="toggle($index);">
-             <input type="checkbox">
+          <label class="checkbox"  >
+             <input type="checkbox" ng-model="templateDetail.selected[$index]" ng-click="update($index);">
            </label>
            {{packingItem}}
+           <div class="item-content" ng-show="has_item($index)">
+            Edit to create item
+            </div>
         </div>
 
-        <!-- <li class="item item-checkbox" ng-show="!editing">
-           <label class="checkbox">
-             <input type="checkbox">
-           </label>
-           {{packingItem}}
-        </li>
- -->        
-        <!-- <span class="item-note">
-        {{event.date}} {{event.time}}
-        </span> -->
-        <!-- <input type="text" ng-show="editing" ng-model="templateDetail.title"> -->
-        <input type="text" ng-show="editing" ng-model="packingItem">
-        <!-- <input type="text" ng-show="editing" ng-model="templateDetail.items[$index]"> -->
+        <input type="text" ng-show="editing" ng-model="templateDetail.items[$index]" placeholder="enter to create item">
       </ion-item>
 
 
