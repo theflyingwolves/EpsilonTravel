@@ -470,6 +470,20 @@ angular.module('starter.controllers', [])
     return $location.url()+"/"+things_to_append;
    }
 
+   $scope.schedule_owner = "";
+   $http.post('http://hack.waw.li', {
+      "database":"user",
+      "query": "find",
+      "data": {_id:$stateParams.user_id}
+    }).
+    then(function(response) {
+      $scope.schedule_owner = response.data.data[0].username + "'s schedule"
+    }, function(response) {
+      // handle error
+    });
+
+    
+
 })
 
 .controller('EventCtrl', function($scope, $http, $stateParams) {
@@ -506,6 +520,7 @@ angular.module('starter.controllers', [])
     });
   }
 
+  $scope.eventTitle = "Event";
   $scope.RequestEventDetail = function(){
 
     $http.post('http://hack.waw.li', {
@@ -515,11 +530,13 @@ angular.module('starter.controllers', [])
     }).
     then(function(response) {
       $scope.eventDetail = response.data.data[0]
+      $scope.eventTitle = $scope.eventDetail.title;
     }, function(response) {
       // handle error
     });
 
   }
+
 
 })
 
