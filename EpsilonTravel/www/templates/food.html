@@ -1,5 +1,51 @@
-<ion-view view-title="Search">
+<ion-view view-title="food" ng-init="RequestFoodDetail();">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear button-positive" 
+    ng-show="!editing"
+    ng-click="edit();">Edit</button>
+    <button class="button button-icon button-clear button-positive" 
+    ng-show="editing"
+    ng-click="finish();">Finish</button>
+  </ion-nav-buttons>
+
   <ion-content>
-    <h1>Food</h1>
+    <div class="list">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Title</span>
+        <div class="item-content" ng-show="!editing">
+          {{foodDetail.title}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="foodDetail.title">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Location</span>
+        <div class="item-content" ng-show="!editing">
+          {{foodDetail.location}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="foodDetail.location">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Category</span>
+        <div class="item-content" ng-show="!editing">
+          {{foodDetail.category}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="foodDetail.category">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Price</span>
+        <div class="item-content" ng-show="!editing">
+          {{foodDetail.price}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="foodDetail.price">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Cityname</span>
+        <div class="item-content" ng-show="!editing">
+          {{foodDetail.cityname}}
+        </div>
+        <input type="text" ng-show="editing" ng-model="foodDetail.cityname">
+      </label>
+
+    </div>
   </ion-content>
 </ion-view>

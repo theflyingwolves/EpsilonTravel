@@ -104,10 +104,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       url: '/food',
       views: {
         'menuContent': {
-          templateUrl: 'templates/food.html'
+          templateUrl: 'templates/foods.html',
+          controller: "foodsCtrl"
         }
       }
     })
+
+  .state('app.onefood', {
+      url: '/food/:food_id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/food.html',
+          controller: "foodCtrl"
+        }
+      }
+  })
 
   .state('app.activities', {
     url: '/activities',
