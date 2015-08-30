@@ -779,7 +779,7 @@ angular.module('starter.controllers', [])
 
         // localStorage[$scope.templateDetail._id][idx] = $scope.templateDetail.selected[idx];
         localStorage[$scope.templateDetail._id] = JSON.stringify($scope.templateDetail.selected);
-        console.log(localStorage[$scope.templateDetail._id])
+        // console.log(localStorage[$scope.templateDetail._id])
       } else {
         $http.post('http://hack.waw.li', {
           "database":"packtemplate",
@@ -810,6 +810,39 @@ angular.module('starter.controllers', [])
 
   $scope.has_item =  function(index){
     return ($scope.templateDetail.items[index] == "")
+  }
+
+  $scope.reset = function(){
+    for (var i = $scope.templateDetail.selected.length - 1; i >= 0; i--) {
+      $scope.templateDetail.selected[i] = false;
+    };
+
+    if(typeof(Storage) !== "undefined"){
+      localStorage[$scope.templateDetail._id] = JSON.stringify($scope.templateDetail.selected);  
+    }
+    
+
+    $http.post('http://hack.waw.li', {
+      "database":"packtemplate",
+      "query": "delete",
+      "data": {
+        _id:$stateParams.template_id
+      }
+    }).
+    then(function(response) {
+      $http.post('http://hack.waw.li', {
+        "database":"packtemplate",
+        "query": "insert",
+        "data": $scope.templateDetail
+      }).
+      then(function(response) {
+        console.log("upload to server");
+      }, function(response) {
+        // handle error
+      });
+    }, function(response) {
+      // handle error
+    });
   }
 
 })
