@@ -778,7 +778,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('ReceiptsCtrl', function($scope, $ionicModal, ReceiptService, CameraService, $location, $http, $stateParams) {
+.controller('ReceiptsCtrl', function($scope, $ionicModal, ReceiptService, CameraService, $location, $http, $stateParams, $ionicLoading, $timeout) {
   $scope.receipts = []
   $scope.receiptDetails = {
     title: '',
@@ -786,8 +786,25 @@ angular.module('starter.controllers', [])
     date: '',
     imgUrl: '',
     price: '',
+    claimed: false,
     trip_id: $stateParams.trip_id
   };
+
+  $scope.showLoadingBar = function() {
+    $ionicLoading.show({
+      template: 'Claiming...'
+    });
+  };
+
+  $scope.claimReceipts = function() {
+    $scope.showLoadingBar();
+    for (var i = $scope.receipts.length - 1; i >= 0; i--) {
+      $scope.receipts[i].claimed = true;
+    }
+    $timeout(function() {
+      $ionicLoading.hide();
+    }, 1000);
+  }
 
   $scope.loadReceipts = function() {
     // $scope.receipts = ReceiptService.all();

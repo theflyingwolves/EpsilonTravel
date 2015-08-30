@@ -36,6 +36,7 @@ angular.module('starter.services', [])
 			      date: '',
 			      imgUrl: '',
 			      price: '',
+			      claimed: false,
 			      trip_id: stateParams.trip_id
 			    };
 		    }, function(response) {
@@ -47,6 +48,7 @@ angular.module('starter.services', [])
 			      date: '',
 			      imgUrl: '',
 			      price: '',
+			      claimed: false,
 			      trip_id: stateParams.trip_id
 			    };
 		    });

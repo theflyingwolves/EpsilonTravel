@@ -6,8 +6,9 @@
 	</ion-nav-buttons>
   		<ion-content>
     		<ion-list can-swipe="true">
-		        <ion-item class="item-thumbnail-left" ng-repeat="receipt in receipts" href="#{{join_path(receipt._id);}}">
+		        <ion-item class="item-thumbnail-left item-icon-right" ng-repeat="receipt in receipts" href="#{{join_path(receipt._id);}}">
 		          <img ng-src={{receipt.imgUrl}} alt="receipt thumbnail" />
+		          <div style="display:{{receipt.claimed ? 'grid':'none'}}"><i class="icon ion-checkmark-circled color-green"></i></div>
 		          <h2>{{receipt.title}}</h2>
 		          <p>{{receipt.description}}</p>
 		          <p>{{receipt.date}}</p>
@@ -17,7 +18,9 @@
 		      		delete
 		    	</ion-option-button>
 		        </ion-item>
-
 		    </ion-list>
+	        <button class="button button-outline button-calm margin-top margin-rigtht float-right" ng-click="claimReceipts()">
+			  Claim
+			</button>
 	</ion-content>
 </ion-view>

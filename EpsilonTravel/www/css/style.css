@@ -106,3 +106,19 @@
 	width: 200px;
 	height: 200px;
 }
+
+.margin-top {
+	margin-top: 10px;
+} 
+
+.margin-rigtht {
+	margin-right: 10px;
+}
+
+.float-right {
+	float: right;
+}
+
+.color-green {
+	color: green;
+}
