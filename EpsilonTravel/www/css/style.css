@@ -101,3 +101,8 @@
 .icon-packing-list {
 	color: rgb(45, 43, 74);
 }
+
+.imageview {
+	width: 200px;
+	height: 200px;
+}
