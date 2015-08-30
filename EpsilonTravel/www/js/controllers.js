@@ -159,7 +159,7 @@ angular.module('starter.controllers', [])
       user_id: $stateParams.user_id
   }
 
-  $scope.user_name = "";
+  $scope.user_name = "trips";
   $http.post('http://hack.waw.li', {
     "database":"user",
     "query": "find",
@@ -168,13 +168,14 @@ angular.module('starter.controllers', [])
   then(function(response) {
     // console.log(response.data.data);
     $scope.user_name = response.data.data[0].username;
+    $scope.user_name = $scope.user_name + "'s trip";
     
   }, function(response) {
     // handle error
   });
 
   $scope.get_user_name = function(){
-    return $scope.user_name+"'s trip";  
+    return $scope.user_name;  
   }
 
   user_id = $stateParams.user_id;
@@ -321,6 +322,7 @@ angular.module('starter.controllers', [])
     });
   }
 
+  $scope.tripTitle = "trip";
   $scope.RequestTripDetail = function(){
 
     $http.post('http://hack.waw.li', {
@@ -330,6 +332,7 @@ angular.module('starter.controllers', [])
     }).
     then(function(response) {
       $scope.tripDetail = response.data.data[0]
+      $scope.tripTitle = $scope.tripDetail.title;
     }, function(response) {
       // handle error
     });
@@ -923,6 +926,7 @@ angular.module('starter.controllers', [])
   //   $ionicHistory.goBack();
   // }
 
+  $scope.receiptTitle = "receipt";
   $scope.RequestReceiptDetail = function(){
 
     $http.post('http://hack.waw.li', {
@@ -933,6 +937,7 @@ angular.module('starter.controllers', [])
     then(function(response) {
       $scope.receiptDetail = response.data.data[0]
       $scope.receiptDetail.imgUrl = '../img/receipts/receipt1.jpeg';
+      $scope.receiptTitle = $scope.receiptDetail.title;
       // console.log($scope.receiptDetail)
     }, function(response) {
       // handle error
