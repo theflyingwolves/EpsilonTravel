@@ -1,4 +1,4 @@
-<ion-view view-title="receipt" ng-init="RequestReceiptDetail();">
+<ion-view view-title="{{receiptTitle}}" ng-init="RequestReceiptDetail();">
   <ion-nav-buttons side="right">
     <button class="button button-icon button-clear button-positive" 
     ng-show="!editing"
@@ -10,34 +10,40 @@
 
   <ion-content>
     <div class="list">
+      <!-- <label class="item item-thumbnail-left"> -->
       <img ng-src={{receiptDetail.imgUrl}} class="imageview">
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Title</span>
+      <!-- </label> -->
+      <label class="item item-input">
+        <span class="input-label"><b>Title</b></span>
         <div class="item-content" ng-show="!editing">
           {{receiptDetail.title}}
         </div>
-        <input type="text" ng-show="editing" ng-model="receiptDetail.title">
+        <input type="text" ng-show="editing" ng-model="receiptDetail.title"
+        placeholder="receipt title here">
       </label>
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Date</span>
+      <label class="item item-input">
+        <span class="input-label"><b>Date</b></span>
         <div class="item-content" ng-show="!editing">
           {{receiptDetail.date}}
         </div>
-        <input type="text" ng-show="editing" ng-model="receiptDetail.date">
+        <input type="text" ng-show="editing" ng-model="receiptDetail.date"
+        placeholder="yyyy/mm/dd">
       </label>
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Price</span>
+      <label class="item item-input">
+        <span class="input-label"><b>Price</b></span>
         <div class="item-content" ng-show="!editing">
           {{receiptDetail.price}}
         </div>
-        <input type="text" ng-show="editing" ng-model="receiptDetail.price">
+        <input type="text" ng-show="editing" ng-model="receiptDetail.price"
+        placeholder="e.g. 50">
       </label>
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Description</span>
+      <label class="item item-input">
+        <span class="input-label"><b>Description</b></span>
         <div class="item-content" ng-show="!editing">
           {{receiptDetail.description}}
         </div>
-        <input type="text" ng-show="editing" ng-model="receiptDetail.description">
+        <input type="text" ng-show="editing" ng-model="receiptDetail.description"
+        placeholder="description here">
       </label>
 
     </div>

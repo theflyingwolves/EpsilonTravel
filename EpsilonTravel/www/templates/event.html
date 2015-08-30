@@ -1,4 +1,4 @@
-<ion-view view-title="event" ng-init="RequestEventDetail();">
+<ion-view view-title="{{eventTitle}}" ng-init="RequestEventDetail();">
   <ion-nav-buttons side="right">
     <button class="button button-icon button-clear button-positive" 
     ng-show="!editing"
@@ -10,40 +10,51 @@
 
   <ion-content>
     <div class="list">
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Title</span>
+      <label class="item item-input">
+      <!-- <label class="item item-input item-stacked-label"> -->
+        <span class="input-label"><b>Title</b></span>
         <div class="item-content" ng-show="!editing">
           {{eventDetail.title}}
         </div>
-        <input type="text" ng-show="editing" ng-model="eventDetail.title">
+        <input type="text" ng-show="editing" ng-model="eventDetail.title"
+        placeholder="event title here">
       </label>
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Date</span>
+      <label class="item item-input">
+      <!-- <label class="item item-input item-stacked-label"> -->
+        <span class="input-label"><b>Date</b></span>
         <div class="item-content" ng-show="!editing">
           {{eventDetail.date}}
         </div>
-        <input type="text" ng-show="editing" ng-model="eventDetail.date">
+        <input type="text" ng-show="editing" ng-model="eventDetail.date"
+        placeholder="yyyy/mm/dd">
       </label>
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Time</span>
+      <label class="item item-input">
+      <!-- <label class="item item-input item-stacked-label"> -->
+        <span class="input-label"><b>Time</b></span>
         <div class="item-content" ng-show="!editing">
           {{eventDetail.time}}
         </div>
-        <input type="text" ng-show="editing" ng-model="eventDetail.time">
+        <input type="text" ng-show="editing" ng-model="eventDetail.time"
+        placeholder="e.g. 12:30">
       </label>
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Location</span>
+      <label class="item item-input">
+      <!-- <label class="item item-input item-stacked-label"> -->
+        <span class="input-label"><b>Location</b></span>
         <div class="item-content" ng-show="!editing">
           {{eventDetail.location}}
         </div>
-        <input type="text" ng-show="editing" ng-model="eventDetail.location">
+
+        <input type="text" ng-show="editing" ng-model="eventDetail.location"
+        placeholder="location here">
       </label>
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Description</span>
+      <label class="item item-input">
+      <!-- <label class="item item-input item-stacked-label"> -->
+        <span class="input-label"><b>Description</b></span>
         <div class="item-content" ng-show="!editing">
           {{eventDetail.description}}
         </div>
-        <input type="text" ng-show="editing" ng-model="eventDetail.description">
+        <input type="text" ng-show="editing" ng-model="eventDetail.description"
+        placeholder="some description">
       </label>
 
     </div>
