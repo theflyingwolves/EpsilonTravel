@@ -1,4 +1,9 @@
 <ion-view view-title="Search">
+<ion-nav-bar class="custom-bar custom-title">
+  <ion-nav-buttons>
+    <button class="button button-icon button-clear ion-navicon-round" menu-toggle="left"></button>
+  </ion-nav-buttons>
+</ion-nav-bar>
   <ion-content>
     <ion-list>
       <ion-item>
@@ -7,7 +12,7 @@
             Your Location:
           </div>
           <div class="item item-text-wrap">
-            Singapore
+            Guangzhou
           </div>
         </div> 
       </ion-item>
@@ -17,10 +22,12 @@
             Weather at Current Location:
           </div>
           <div class="item item-text-wrap">
-            Singapore
+            28ºC Mostly Cloudy
           </div>
           <div class="item item-image">
-            <img src="https://ssl.gstatic.com/onebox/weather/256/thunderstorms.png">
+            <img src="https://s.yimg.com/os/mit/media/m/weather/images/fallbacks/lead/cloudy_n-e618500.jpg">
+            <!-- <img src="https://ssl.gstatic.com/onebox/weather/256/thunderstorms.png"> -->
+            
           </div>
         </div> 
         <div class="card">
@@ -28,10 +35,10 @@
             Weather at Singapore:
           </div>
           <div class="item item-text-wrap">
-            Singapore
+            31ºC Sunny
           </div>
           <div class="item item-image">
-            <img src="https://ssl.gstatic.com/onebox/weather/256/thunderstorms.png">
+            <img src="https://s.yimg.com/os/mit/media/m/weather/images/fallbacks/lead/cloudy_d-e618500.jpg">
           </div>
         </div> 
       </ion-item>
@@ -46,7 +53,7 @@
             </div>
             <select>
               <option>SGD</option>
-              <option selected>USD</option>
+              <!-- <option selected>USD</option> -->
             </select>
           </label>
           <label class="item item-input item-select">
@@ -54,19 +61,20 @@
               To
             </div>
             <select>
-              <option>USD</option>
-              <option selected>SGD</option>
+              <option>CNY</option>
+              <!-- <option selected>SGD</option> -->
             </select>
           </label>
           <label class="item item-input">
-            <input type="text" placeholder="$$$$">
+            <input type="number" placeholder="enter amount of money" ng-model="amount_of_money">
           </label>
           <div class="card">
             <div class="item item-divider">
               Result:
             </div>
             <div class="item item-text-wrap">
-              0
+              {{amount_of_money*4.54}}
+              <!-- {{amount_of_money_converted}} -->
             </div>
           </div> 
         </div>
@@ -78,7 +86,7 @@
             Time at Current Location:
           </div>
           <div class="item item-text-wrap">
-            Time now
+            {{calcTime()}}
           </div>
         </div> 
         <div class="card">
@@ -86,7 +94,7 @@
             Time at Singapore Location:
           </div>
           <div class="item item-text-wrap">
-            Time now
+            {{calcTime()}}
           </div>
         </div> 
       </ion-item>

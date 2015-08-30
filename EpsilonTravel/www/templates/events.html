@@ -1,8 +1,13 @@
 <ion-view view-title="{{schedule_owner}}" ng-init="Requesteventlists();">
-  <ion-nav-buttons side="right">
+<ion-nav-bar class="custom-bar custom-title">
+  <ion-nav-buttons>
+      <button class="button button-icon button-clear ion-navicon-round button-left-custom" menu-toggle="left">
+    </button>
+
     <button class="button button-icon button-clear button-positive" 
-    ng-click="openModal();">Add</button>
+    ng-click="openModal();" style="position:fixed; right:10px;"><i class="icon ion-plus-round icon-plus"></i></button>
   </ion-nav-buttons>
+</ion-nav-bar>
 
 
   <ion-content>

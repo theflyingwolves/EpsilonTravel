@@ -46,12 +46,14 @@ angular.module('starter.controllers', [])
 
   $scope.trip_id = "";
   $scope.updateTripId = function () {
-    console.log("trip id update");
-    console.log($stateParams.trip_id);
+    // console.log("trip id update");
+    // console.log($stateParams.trip_id);
     $scope.trip_id = $stateParams.trip_id;
   }
 
   $scope.join_path = function(things_to_append){
+    // console.log("here");
+    // console.log($stateParams);
     return ("/app/"+$stateParams.user_id+"/"+$stateParams.trip_id+"/"+things_to_append);
    }
 
@@ -129,7 +131,7 @@ angular.module('starter.controllers', [])
 
     $http.post($scope.serverUrl+"/login",$scope.credential)
     .success(function(res){
-      console.log(res);
+      // console.log(res);
       if (res.status != "success") {
         $scope.showConfirm("Log In Failed");
       } else {
@@ -188,7 +190,7 @@ angular.module('starter.controllers', [])
     }).
     then(function(response) {
       $scope.tripList = response.data.data;
-      console.log($scope.tripList);
+      // console.log($scope.tripList);
     }, function(response) {
       // handle error
     });
@@ -369,7 +371,7 @@ angular.module('starter.controllers', [])
       $scope.eventlists.sort(function(a,b){
         return a.date.localeCompare(b.date);
       });
-      console.log($scope.eventlists);
+      // console.log($scope.eventlists);
     }, function(response) {
       // handle error
     });
@@ -545,6 +547,31 @@ angular.module('starter.controllers', [])
 
 .controller('LocalCtrl', function($scope, $stateParams) {
 
+  $scope.amount_of_money = 0;
+  $scope.amount_of_money_converted = 50;
+  $scope.convert_currency = function(){
+    return $scope.amount_of_money*4.54;
+  }
+  
+  $scope.calcTime = function () {
+    // create Date object for current location
+    var offset = -8;
+    var d = new Date();
+
+    // convert to msec
+    // subtract local time zone offset
+    // get UTC time in msec
+    var utc = d.getTime() - (d.getTimezoneOffset() * 60000);
+
+    // create new Date object for different city
+    // using supplied offset
+    var nd = new Date(utc + (3600000*offset));
+
+    // return time as a string
+    return nd.toLocaleString();
+  }
+
+
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
@@ -559,6 +586,16 @@ angular.module('starter.controllers', [])
       selected: [],
       user_id: $stateParams.user_id
   }
+  for (var i = 50 - 1; i >= 0; i--) {
+    $scope.templateDetail.items.push("");
+    $scope.templateDetail.selected.push(false);
+  };
+
+  for (var i = 50 - 1; i >= 0; i--) {
+    $scope.templateDetail.items.push("");
+    // $scope.templateDetail.items.push("item"+i);
+    $scope.templateDetail.selected.push(false);
+  };
 
   $scope.RequestTemplatelist = function(){
 
@@ -683,6 +720,13 @@ angular.module('starter.controllers', [])
 .controller('packlistCtrl', function($scope, $http, $stateParams) {
   $scope.templateDetail = {};
   $scope.editing = false;
+  if(typeof(Storage) !== "undefined") {
+    // if (!localStorage.packtemplate) {
+    //   localStorage.packtemplate = {}
+    // };
+  } else {
+      console.log("no local Storage");
+  }
 
   $scope.edit = function () {
     $scope.editing = true;
@@ -690,7 +734,7 @@ angular.module('starter.controllers', [])
 
   $scope.finish = function () {
     $scope.editing = false;
-    console.log($scope.templateDetail)
+    // console.log($scope.templateDetail)
 
     $http.post('http://hack.waw.li', {
       "database":"packtemplate",
@@ -706,7 +750,7 @@ angular.module('starter.controllers', [])
         "data": $scope.templateDetail
       }).
       then(function(response) {
-        console.log("success");
+        // console.log("success");
       }, function(response) {
         // handle error
         console.log("error");
@@ -718,6 +762,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.RequestTemplateDetail = function(){
+    console.log("request one time");
 
     $http.post('http://hack.waw.li', {
       "database":"packtemplate",
@@ -725,29 +770,83 @@ angular.module('starter.controllers', [])
       "data": {_id:$stateParams.template_id}
     }).
     then(function(response) {
-      console.log(response.data.data[0])
+      // console.log(response.data.data[0])
       $scope.templateDetail = response.data.data[0]
+
+      if(typeof(Storage) !== "undefined") {
+        var template_id = ""+$scope.templateDetail._id;
+        if (localStorage[template_id]) {
+          console.log("has record in local ");
+          var local_selected = JSON.parse(localStorage[template_id]);
+          for (var i = local_selected.length - 1; i >= 0; i--) {
+            $scope.templateDetail.selected[i] =  local_selected[i];
+          };
+        }else{
+          console.log("no record in local ");
+          localStorage.setItem(template_id, JSON.stringify($scope.templateDetail.selected));
+        }
+
+      } else {
+          console.log("no local Storage");
+      }
+
     }, function(response) {
       // handle error
     });
-
-    // $scope.templateDetail = {
-    //   title: "my_title",
-    //   items: ["item1","item2","item3","item4","item5"],
-    //   selected: [true, true, false, false, false],
-    //   user_id: 1
-    // }
-
   }
 
   $scope.update = function(idx){
-    // if ($scope.templateDetail.selected[idx]) {
-    //   $scope.templateDetail.selected[idx] = false
-    // }else{
-    //   $scope.templateDetail.selected[idx] = true
-    // }
+
+
+     if(typeof(Storage) !== "undefined") {
+        console.log("store to local");
+        console.log($scope.templateDetail);
+
+        // localStorage[$scope.templateDetail._id][idx] = $scope.templateDetail.selected[idx];
+        localStorage[$scope.templateDetail._id] = JSON.stringify($scope.templateDetail.selected);
+        // console.log(localStorage[$scope.templateDetail._id])
+      } else {
+        $http.post('http://hack.waw.li', {
+          "database":"packtemplate",
+          "query": "delete",
+          "data": {
+            _id:$stateParams.template_id
+          }
+        }).
+        then(function(response) {
+          $http.post('http://hack.waw.li', {
+            "database":"packtemplate",
+            "query": "insert",
+            "data": $scope.templateDetail
+          }).
+          then(function(response) {
+            console.log("upload to server");
+          }, function(response) {
+            // handle error
+          });
+        }, function(response) {
+          // handle error
+        });
+      }
 
     // console.log($scope.templateDetail.selected);
+    
+  }
+
+  $scope.has_item =  function(index){
+    return ($scope.templateDetail.items[index] == "")
+  }
+
+  $scope.reset = function(){
+    for (var i = $scope.templateDetail.selected.length - 1; i >= 0; i--) {
+      $scope.templateDetail.selected[i] = false;
+    };
+
+    if(typeof(Storage) !== "undefined"){
+      localStorage[$scope.templateDetail._id] = JSON.stringify($scope.templateDetail.selected);  
+    }
+    
+
     $http.post('http://hack.waw.li', {
       "database":"packtemplate",
       "query": "delete",
@@ -762,17 +861,13 @@ angular.module('starter.controllers', [])
         "data": $scope.templateDetail
       }).
       then(function(response) {
-        
+        console.log("upload to server");
       }, function(response) {
         // handle error
       });
     }, function(response) {
       // handle error
     });
-  }
-
-  $scope.has_item =  function(index){
-    return ($scope.templateDetail.items[index] == "")
   }
 
 })
@@ -969,7 +1064,6 @@ angular.module('starter.controllers', [])
 .controller('foodsCtrl', function($scope, $http, $stateParams, $ionicModal, $location) {
 
   $scope.foodlists = [];
-  console.log("hello");
 
   trip_id = $stateParams.trip_id;
 
@@ -985,8 +1079,7 @@ angular.module('starter.controllers', [])
     then(function(response) {
       var trip = response.data.data[0];
       console.log(response)
-      var cityname = trip.destination
-
+      var cityname = trip.destination;
 
       $http.post('http://hack.waw.li', {
         "database":"food",
@@ -1005,9 +1098,6 @@ angular.module('starter.controllers', [])
     }, function(response) {
       // handle error
     });
-
-
-      
   }
 
   $scope.foodDetail = {
@@ -1015,8 +1105,12 @@ angular.module('starter.controllers', [])
       location: "",
       category: "",
       price: "",
-      cityname: ""
-  }
+      cityname: "",
+      rating:0,
+      description:"",
+      comments:[]
+  };
+
   // handle the add button
   $ionicModal.fromTemplateUrl('templates/foodModal.html', {
     scope: $scope,
@@ -1029,37 +1123,69 @@ angular.module('starter.controllers', [])
   };
   $scope.closeModal = function() {
     $scope.modal.hide();
+      $scope.foodDetail = {
+        title: "",
+        location: "",
+        category: "",
+        price: "",
+        cityname: "",
+        description:"",
+        rating:0,
+        comments:[]
+      };
   };
   $scope.confirmAdd = function() {
-    $http.post('http://hack.waw.li', {
-      "database":"food",
-      "query": "insert",
-      "data": $scope.foodDetail
-    }).
-    then(function(response) {
-      $scope.modal.hide();
-      $scope.Requestfoodlists();
+    $scope.foodDetail.rating = 0;
 
-       $scope.foodDetail = {
-        title: "",
-        location: "",
-        category: "",
-        price: "",
-        cityname: ""
-      }
-    }, function(response) {
-      // handle error
-      $scope.modal.hide();
-       $scope.eventDetail = {
-        title: "",
-        location: "",
-        category: "",
-        price: "",
-        cityname: ""
-      }
+    $http.post('http://hack.waw.li', {
+      "database":"trip",
+      "query": "find",
+      "data": {_id:$stateParams.trip_id}
+      // "data": {trip_id:$stateParams.trip_id}
+    }).
+    then(function(response){
+      var trip = response.data.data[0];
+      console.log(response)
+      $scope.foodDetail.cityname = trip.destination;
+
+      $http.post('http://hack.waw.li', {
+            "database":"food",
+            "query": "insert",
+            "data": $scope.foodDetail
+          }).
+          then(function(response) {
+            $scope.modal.hide();
+            $scope.Requestfoodlists();
+
+             $scope.foodDetail = {
+              title: "",
+              location: "",
+              category: "",
+              price: "",
+              cityname: "",
+              description:"",
+              comments:[]
+             };
+
+          }, function(response) {
+            // handle error
+            $scope.modal.hide();
+             $scope.foodDetail = {
+              title: "",
+              location: "",
+              category: "",
+              price: "",
+              cityname: "",
+              rating:0,
+              description:"",
+              comments:[]
+             };
+
+          });
+
     });
 
-     
+
     
   };
   $scope.cancelAdd = function() {
@@ -1069,9 +1195,12 @@ angular.module('starter.controllers', [])
         location: "",
         category: "",
         price: "",
-        cityname: ""
+        cityname: "",
+        rating:0,
+        description:""
       }
   };
+
   //Cleanup the modal when we're done with it!
   $scope.$on('$destroy', function() {
     $scope.modal.remove();

@@ -1,12 +1,16 @@
 <ion-view view-title="{{tripTitle}}" ng-init="RequestTripDetail();">
-  <ion-nav-buttons side="right">
+  <ion-nav-bar class="custom-bar custom-title">
+  <ion-nav-buttons>
     <button class="button button-icon button-clear button-positive" 
     ng-show="!editing"
-    ng-click="edit();">Edit</button>
+    ng-click="edit();" style="position:fixed; right:10px; color: rgb(163,163,163); font-weight:bold;">Edit</button>
+    <button class="button button-icon button-clear ion-navicon-round" menu-toggle="left">
+    </button>
     <button class="button button-icon button-clear button-positive" 
     ng-show="editing"
-    ng-click="finish();">Finish</button>
+    ng-click="finish();" style="position:fixed; right:10px; color: rgb(163,163,163); font-weight:bold;">Finish</button>
   </ion-nav-buttons>
+  </ion-nav-bar>
 
   <ion-content>
     <div class="list">
@@ -40,7 +44,7 @@
           {{tripDetail.startdate}}
         </div>
         <input type="text" ng-show="editing" ng-model="tripDetail.startdate"
-        placeholder="dd/mm/yyyy">
+        placeholder="yyyy/mm/dd">
       </label>
       <label class="item item-input">
         <span class="input-label"><b>End Date</b></span>
@@ -48,7 +52,7 @@
           {{tripDetail.enddate}}
         </div>
         <input type="text" ng-show="editing" ng-model="tripDetail.enddate"
-        placeholder="dd/mm/yyyy">
+        placeholder="yyyy/mm/dd">
       </label>
 
     </div>

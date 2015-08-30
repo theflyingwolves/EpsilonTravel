@@ -1,25 +1,73 @@
-<ion-view view-title="Food" ng-init="Requestfoodlists();">
-  <ion-nav-buttons side="right">
+<ion-view view-title="Local Food" ng-init="Requestfoodlists();">
+<ion-nav-bar class="custom-bar custom-title">
+  <ion-nav-buttons>
     <button class="button button-icon button-clear button-positive" 
-    ng-click="openModal();">Add</button>
+    ng-click="openModal();" style="position:fixed; right:10px;"><i class="icon ion-plus-round icon-plus"></i></button>
+    <button class="button button-icon button-clear ion-navicon-round" menu-toggle="left">
+        </button>
   </ion-nav-buttons>
+</ion-nav-bar>
 
   <ion-content>
     <!-- <h1>Food</h1> -->
-   	<ion-list can-swipe="listCanSwipe">
 
-   	  <ion-item ng-repeat="food in foodlists" href="#{{join_path(food._id);}}">
-      <!-- <ion-item ng-repeat="event in eventlists" href="#/app/{{event.trip_id}}/events/{{event._id}}"> -->
-        {{food.title}}
-        <span class="item-note">
-	      {{food.rating}}
-	    </span>
-	    <ion-option-button class="button-assertive"
-                       ng-click="deleteItem($index);">
-      		delete
-    	</ion-option-button>
+    <ion-list>
+      <ion-item ng-repeat="food in foodlists">
+            <!-- <div class="col col-80" href="#{{join_path(food._id);}}">
+                <div class="item item-text-wrap">
+                  {{food.title}} 
+                  <span style="right:0px;">{{food.rating}}</span>
+                </div>
+            </div>
+            <div class="col col-20" ng-click="like(food._id)">
+              <div class="ion-android-favorite-outline"></div>
+            </div> 
+            </div>-->
+
+<!--             <div class="col col-80">
+              <div class="item item-text-wrap">
+                  {{food.title}}
+                  <span style="right:0px; width:80px; position:fixed;" >{{food.rating}}</span>
+              </div>
+            </div>
+
+            <div class="col col-20">
+              <div class="ion-android-favorite-outline"></div>
+            </div> -->
+
+            <div class="list card">
+
+                <div class="item">
+                  <h2>{{food.title}}</h2>
+                  <p>{{food.location}}</p>
+                </div>
+
+                <div class="item item-body">
+                  <p>
+                    {{food.description}}
+                  </p>
+                  <p>
+                    <a href="#" class="subdued">{{food.rating}} Like</a>
+                    <a href="#" class="subdued">{{food.comments.length || 0}} Comments</a>
+                  </p>
+                </div>
+
+                <div class="item tabs tabs-secondary tabs-icon-left">
+                  <a class="tab-item" href="#">
+                    <i class="icon ion-thumbsup"></i>
+                    Like
+                  </a>
+                  <a class="tab-item" href="#">
+                    <i class="icon ion-chatbox"></i>
+                    Comment
+                  </a>
+                  <a class="tab-item" href="#">
+                    <i class="icon ion-share"></i>
+                    Share
+                  </a>
+                </div>
       </ion-item>
-
     </ion-list>
+
   </ion-content>
 </ion-view>
