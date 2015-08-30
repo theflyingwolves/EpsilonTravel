@@ -90,16 +90,16 @@
 						<tr>
 							<td>Title</td>
 							<td>Date</td>
-							<!-- <td>Time</td> -->
 							<td>Amount</td>
+							<td>Status</td>
 							<td>Description</td>
 						</tr>
 
 						<tr ng-repeat="receipt in selectedTrip.receipts">
 							<td>{{receipt.title}}</td>
 							<td>{{receipt.date}}</td>
-							<!-- <td>{{receipt.time}}</td> -->
 							<td>{{receipt.price}}</td>
+							<td>{{receipt.claimed? "Pending" : "Not Submitted"}}</td>
 							<td>{{receipt.description}}</td>
 						</tr>
 

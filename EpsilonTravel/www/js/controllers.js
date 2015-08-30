@@ -1047,7 +1047,6 @@ angular.module('starter.controllers', [])
 .controller('foodsCtrl', function($scope, $http, $stateParams, $ionicModal, $location) {
 
   $scope.foodlists = [];
-  console.log("hello");
 
   trip_id = $stateParams.trip_id;
 
@@ -1063,8 +1062,7 @@ angular.module('starter.controllers', [])
     then(function(response) {
       var trip = response.data.data[0];
       console.log(response)
-      var cityname = trip.destination
-
+      var cityname = trip.destination;
 
       $http.post('http://hack.waw.li', {
         "database":"food",
@@ -1083,9 +1081,6 @@ angular.module('starter.controllers', [])
     }, function(response) {
       // handle error
     });
-
-
-      
   }
 
   $scope.foodDetail = {
@@ -1093,8 +1088,12 @@ angular.module('starter.controllers', [])
       location: "",
       category: "",
       price: "",
-      cityname: ""
-  }
+      cityname: "",
+      rating:0,
+      description:"",
+      comments:[]
+  };
+
   // handle the add button
   $ionicModal.fromTemplateUrl('templates/foodModal.html', {
     scope: $scope,
@@ -1107,37 +1106,69 @@ angular.module('starter.controllers', [])
   };
   $scope.closeModal = function() {
     $scope.modal.hide();
+      $scope.foodDetail = {
+        title: "",
+        location: "",
+        category: "",
+        price: "",
+        cityname: "",
+        description:"",
+        rating:0,
+        comments:[]
+      };
   };
   $scope.confirmAdd = function() {
-    $http.post('http://hack.waw.li', {
-      "database":"food",
-      "query": "insert",
-      "data": $scope.foodDetail
-    }).
-    then(function(response) {
-      $scope.modal.hide();
-      $scope.Requestfoodlists();
+    $scope.foodDetail.rating = 0;
 
-       $scope.foodDetail = {
-        title: "",
-        location: "",
-        category: "",
-        price: "",
-        cityname: ""
-      }
-    }, function(response) {
-      // handle error
-      $scope.modal.hide();
-       $scope.eventDetail = {
-        title: "",
-        location: "",
-        category: "",
-        price: "",
-        cityname: ""
-      }
+    $http.post('http://hack.waw.li', {
+      "database":"trip",
+      "query": "find",
+      "data": {_id:$stateParams.trip_id}
+      // "data": {trip_id:$stateParams.trip_id}
+    }).
+    then(function(response){
+      var trip = response.data.data[0];
+      console.log(response)
+      $scope.foodDetail.cityname = trip.destination;
+
+      $http.post('http://hack.waw.li', {
+            "database":"food",
+            "query": "insert",
+            "data": $scope.foodDetail
+          }).
+          then(function(response) {
+            $scope.modal.hide();
+            $scope.Requestfoodlists();
+
+             $scope.foodDetail = {
+              title: "",
+              location: "",
+              category: "",
+              price: "",
+              cityname: "",
+              description:"",
+              comments:[]
+             };
+
+          }, function(response) {
+            // handle error
+            $scope.modal.hide();
+             $scope.foodDetail = {
+              title: "",
+              location: "",
+              category: "",
+              price: "",
+              cityname: "",
+              rating:0,
+              description:"",
+              comments:[]
+             };
+
+          });
+
     });
 
-     
+
     
   };
   $scope.cancelAdd = function() {
@@ -1147,9 +1178,12 @@ angular.module('starter.controllers', [])
         location: "",
         category: "",
         price: "",
-        cityname: ""
+        cityname: "",
+        rating:0,
+        description:""
       }
   };
+
   //Cleanup the modal when we're done with it!
   $scope.$on('$destroy', function() {
     $scope.modal.remove();
