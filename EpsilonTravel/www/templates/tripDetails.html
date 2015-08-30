@@ -1,4 +1,4 @@
-<ion-view view-title="Trip" ng-init="RequestTripDetail();">
+<ion-view view-title="{{tripTitle}}" ng-init="RequestTripDetail();">
   <ion-nav-buttons side="right">
     <button class="button button-icon button-clear button-positive" 
     ng-show="!editing"
@@ -10,40 +10,45 @@
 
   <ion-content>
     <div class="list">
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Title</span>
+      <label class="item item-input">
+        <span class="input-label"><b>Title</b></span>
         <div class="item-content" ng-show="!editing">
           {{tripDetail.title}}
         </div>
-        <input type="text" ng-show="editing" ng-model="tripDetail.title">
+        <input type="text" ng-show="editing" ng-model="tripDetail.title"
+        placeholder="trip title here">
       </label>
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Base city</span>
+      <label class="item item-input">
+        <span class="input-label"><b>Base city</b></span>
         <div class="item-content" ng-show="!editing">
           {{tripDetail.basecity}}
         </div>
-        <input type="text" ng-show="editing" ng-model="tripDetail.basecity">
+        <input type="text" ng-show="editing" ng-model="tripDetail.basecity"
+        placeholder="e.g. Singapore">
       </label>
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Destination</span>
+      <label class="item item-input">
+        <span class="input-label"><b>Destination</b></span>
         <div class="item-content" ng-show="!editing">
           {{tripDetail.destination}}
         </div>
-        <input type="text" ng-show="editing" ng-model="tripDetail.destination">
+        <input type="text" ng-show="editing" ng-model="tripDetail.destination"
+        placeholder="e.g. Guangzhou">
       </label>
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">Start Date</span>
+      <label class="item item-input">
+        <span class="input-label"><b>Start Date</b></span>
         <div class="item-content" ng-show="!editing">
           {{tripDetail.startdate}}
         </div>
-        <input type="text" ng-show="editing" ng-model="tripDetail.startdate">
+        <input type="text" ng-show="editing" ng-model="tripDetail.startdate"
+        placeholder="dd/mm/yyyy">
       </label>
-      <label class="item item-input item-stacked-label">
-        <span class="input-label">End Date</span>
+      <label class="item item-input">
+        <span class="input-label"><b>End Date</b></span>
         <div class="item-content" ng-show="!editing">
           {{tripDetail.enddate}}
         </div>
-        <input type="text" ng-show="editing" ng-model="tripDetail.enddate">
+        <input type="text" ng-show="editing" ng-model="tripDetail.enddate"
+        placeholder="dd/mm/yyyy">
       </label>
 
     </div>

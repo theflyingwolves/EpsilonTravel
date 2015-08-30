@@ -159,7 +159,7 @@ angular.module('starter.controllers', [])
       user_id: $stateParams.user_id
   }
 
-  $scope.user_name = "";
+  $scope.user_name = "trips";
   $http.post('http://hack.waw.li', {
     "database":"user",
     "query": "find",
@@ -168,10 +168,15 @@ angular.module('starter.controllers', [])
   then(function(response) {
     // console.log(response.data.data);
     $scope.user_name = response.data.data[0].username;
+    $scope.user_name = $scope.user_name + "'s trip";
     
   }, function(response) {
     // handle error
   });
+
+  $scope.get_user_name = function(){
+    return $scope.user_name;  
+  }
 
   user_id = $stateParams.user_id;
   $scope.RequestTriplists = function(){
@@ -317,6 +322,7 @@ angular.module('starter.controllers', [])
     });
   }
 
+  $scope.tripTitle = "trip";
   $scope.RequestTripDetail = function(){
 
     $http.post('http://hack.waw.li', {
@@ -326,6 +332,7 @@ angular.module('starter.controllers', [])
     }).
     then(function(response) {
       $scope.tripDetail = response.data.data[0]
+      $scope.tripTitle = $scope.tripDetail.title;
     }, function(response) {
       // handle error
     });
@@ -466,6 +473,20 @@ angular.module('starter.controllers', [])
     return $location.url()+"/"+things_to_append;
    }
 
+   $scope.schedule_owner = "";
+   $http.post('http://hack.waw.li', {
+      "database":"user",
+      "query": "find",
+      "data": {_id:$stateParams.user_id}
+    }).
+    then(function(response) {
+      $scope.schedule_owner = response.data.data[0].username + "'s schedule"
+    }, function(response) {
+      // handle error
+    });
+
+    
+
 })
 
 .controller('EventCtrl', function($scope, $http, $stateParams) {
@@ -502,6 +523,7 @@ angular.module('starter.controllers', [])
     });
   }
 
+  $scope.eventTitle = "Event";
   $scope.RequestEventDetail = function(){
 
     $http.post('http://hack.waw.li', {
@@ -511,11 +533,13 @@ angular.module('starter.controllers', [])
     }).
     then(function(response) {
       $scope.eventDetail = response.data.data[0]
+      $scope.eventTitle = $scope.eventDetail.title;
     }, function(response) {
       // handle error
     });
 
   }
+
 
 })
 
@@ -531,9 +555,10 @@ angular.module('starter.controllers', [])
   $scope.templatelist = [];
   $scope.templateDetail = {
       title: "",
-      items: {},
+      items: [],
+      selected: [],
       user_id: $stateParams.user_id
-    }
+  }
 
   $scope.RequestTemplatelist = function(){
 
@@ -574,27 +599,45 @@ angular.module('starter.controllers', [])
       $scope.modal.hide();
       
       $scope.templateDetail = {
-        title: "",
-        items: {},
-        user_id: $stateParams.user_id
+          title: "",
+          items: [],
+          selected: [],
+          user_id: $stateParams.user_id
       }
+      for (var i = 50 - 1; i >= 0; i--) {
+        $scope.templateDetail.items.push("");
+        // $scope.templateDetail.items.push("item"+i);
+        $scope.templateDetail.selected.push(false);
+      };
     }, function(response) {
       // handle error
       $scope.modal.hide();
       $scope.templateDetail = {
-        title: "",
-        items: {},
-        user_id: $stateParams.user_id
+          title: "",
+          items: [],
+          selected: [],
+          user_id: $stateParams.user_id
       }
+      for (var i = 50 - 1; i >= 0; i--) {
+        $scope.templateDetail.items.push("");
+        // $scope.templateDetail.items.push("item"+i);
+        $scope.templateDetail.selected.push(false);
+      };
     });   
   };
   $scope.cancelAdd = function() {
     $scope.modal.hide();
     $scope.templateDetail = {
-      title: "",
-      items: {},
-      user_id: $stateParams.user_id
+        title: "",
+        items: [],
+        selected: [],
+        user_id: $stateParams.user_id
     }
+    for (var i = 50 - 1; i >= 0; i--) {
+      $scope.templateDetail.items.push("");
+      // $scope.templateDetail.items.push("item"+i);
+      $scope.templateDetail.selected.push(false);
+    };
   };
   //Cleanup the modal when we're done with it!
   $scope.$on('$destroy', function() {
@@ -647,7 +690,64 @@ angular.module('starter.controllers', [])
 
   $scope.finish = function () {
     $scope.editing = false;
+    console.log($scope.templateDetail)
 
+    $http.post('http://hack.waw.li', {
+      "database":"packtemplate",
+      "query": "delete",
+      "data": {
+        _id:$stateParams.template_id
+      }
+    }).
+    then(function(response) {
+      $http.post('http://hack.waw.li', {
+        "database":"packtemplate",
+        "query": "insert",
+        "data": $scope.templateDetail
+      }).
+      then(function(response) {
+        console.log("success");
+      }, function(response) {
+        // handle error
+        console.log("error");
+      });
+    }, function(response) {
+      // handle error
+      console.log("error");
+    });
+  }
+
+  $scope.RequestTemplateDetail = function(){
+
+    $http.post('http://hack.waw.li', {
+      "database":"packtemplate",
+      "query": "find",
+      "data": {_id:$stateParams.template_id}
+    }).
+    then(function(response) {
+      console.log(response.data.data[0])
+      $scope.templateDetail = response.data.data[0]
+    }, function(response) {
+      // handle error
+    });
+
+    // $scope.templateDetail = {
+    //   title: "my_title",
+    //   items: ["item1","item2","item3","item4","item5"],
+    //   selected: [true, true, false, false, false],
+    //   user_id: 1
+    // }
+
+  }
+
+  $scope.update = function(idx){
+    // if ($scope.templateDetail.selected[idx]) {
+    //   $scope.templateDetail.selected[idx] = false
+    // }else{
+    //   $scope.templateDetail.selected[idx] = true
+    // }
+
+    // console.log($scope.templateDetail.selected);
     $http.post('http://hack.waw.li', {
       "database":"packtemplate",
       "query": "delete",
@@ -671,59 +771,8 @@ angular.module('starter.controllers', [])
     });
   }
 
-  $scope.RequestTemplateDetail = function(){
-
-    // $http.post('http://hack.waw.li', {
-    //   "database":"packtemplate",
-    //   "query": "find",
-    //   "data": {_id:$stateParams.template_id}
-    // }).
-    // then(function(response) {
-    //   $scope.templateDetail = response.data.data[0]
-    // }, function(response) {
-    //   // handle error
-    // });
-
-    $scope.templateDetail = {
-      title: "my_title",
-      items: ["item1","item2","item3","item4","item5"],
-      selected: [true, true, false, false, false],
-      user_id: 1
-    }
-
-  }
-
-  $scope.toggle = function(idx){
-    if ($scope.templateDetail.selected[idx]) {
-      $scope.templateDetail.selected[idx] = false
-    }else{
-      $scope.templateDetail.selected[idx] = true
-    }
-
-    // console.log($scope.templateDetail.selected);
-    // $http.post('http://hack.waw.li', {
-    //   "database":"packtemplate",
-    //   "query": "delete",
-    //   "data": {
-    //     _id:$stateParams.template_id
-    //   }
-    // }).
-    // then(function(response) {
-    //   $http.post('http://hack.waw.li', {
-    //     "database":"packtemplate",
-    //     "query": "insert",
-    //     "data": $scope.templateDetail
-    //   }).
-    //   then(function(response) {
-        
-    //   }, function(response) {
-    //     // handle error
-    //   });
-    // }, function(response) {
-    //   // handle error
-    // });
-    
-
+  $scope.has_item =  function(index){
+    return ($scope.templateDetail.items[index] == "")
   }
 
 })
@@ -877,6 +926,7 @@ angular.module('starter.controllers', [])
   //   $ionicHistory.goBack();
   // }
 
+  $scope.receiptTitle = "receipt";
   $scope.RequestReceiptDetail = function(){
 
     $http.post('http://hack.waw.li', {
@@ -887,6 +937,7 @@ angular.module('starter.controllers', [])
     then(function(response) {
       $scope.receiptDetail = response.data.data[0]
       $scope.receiptDetail.imgUrl = '../img/receipts/receipt1.jpeg';
+      $scope.receiptTitle = $scope.receiptDetail.title;
       // console.log($scope.receiptDetail)
     }, function(response) {
       // handle error
@@ -896,6 +947,205 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistsCtrl', function($scope, $stateParams) {
+})
+
+.controller('foodsCtrl', function($scope, $http, $stateParams, $ionicModal, $location) {
+
+  $scope.foodlists = [];
+  console.log("hello");
+
+  trip_id = $stateParams.trip_id;
+
+
+  $scope.Requestfoodlists = function(){
+
+    $http.post('http://hack.waw.li', {
+      "database":"trip",
+      "query": "find",
+      "data": {_id:$stateParams.trip_id}
+      // "data": {trip_id:$stateParams.trip_id}
+    }).
+    then(function(response) {
+      var trip = response.data.data[0];
+      console.log(response)
+      var cityname = trip.destination
+
+
+      $http.post('http://hack.waw.li', {
+        "database":"food",
+        "query": "find",
+        // "data": {}
+        "data": {cityname:cityname}
+      }).
+      then(function(response) {
+        // console.log("hello");
+        $scope.foodlists = response.data.data;
+        console.log($scope.foodlists);
+      }, function(response) {
+        // handle error
+      });
+
+    }, function(response) {
+      // handle error
+    });
+
+
+      
+  }
+
+  $scope.foodDetail = {
+      title: "",
+      location: "",
+      category: "",
+      price: "",
+      cityname: ""
+  }
+  // handle the add button
+  $ionicModal.fromTemplateUrl('templates/foodModal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  $scope.confirmAdd = function() {
+    $http.post('http://hack.waw.li', {
+      "database":"food",
+      "query": "insert",
+      "data": $scope.foodDetail
+    }).
+    then(function(response) {
+      $scope.modal.hide();
+      $scope.Requestfoodlists();
+
+       $scope.foodDetail = {
+        title: "",
+        location: "",
+        category: "",
+        price: "",
+        cityname: ""
+      }
+    }, function(response) {
+      // handle error
+      $scope.modal.hide();
+       $scope.eventDetail = {
+        title: "",
+        location: "",
+        category: "",
+        price: "",
+        cityname: ""
+      }
+    });
+
+     
+    
+  };
+  $scope.cancelAdd = function() {
+    $scope.modal.hide();
+    $scope.foodDetail = {
+        title: "",
+        location: "",
+        category: "",
+        price: "",
+        cityname: ""
+      }
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+  // handle swipe and delete
+   $scope.listCanSwipe = true;
+   $scope.deleteItem = function(event_idx){
+      var e_id = $scope.foodlists[event_idx]._id;
+      $scope.foodlists.splice(event_idx, 1);  
+      
+      $http.post('http://hack.waw.li', {
+        "database":"food",
+        "query": "delete",
+        "data": {_id:e_id}
+      }).
+      then(function(response) {
+        
+      }, function(response) {
+        // handle error
+      });
+
+   }
+
+   // append to create new url
+   $scope.join_path = function(things_to_append){
+    // console.log("hello");
+    // console.log($location.url()+"/"+things_to_append);
+    return $location.url()+"/"+things_to_append;
+   }
+
+})
+
+
+.controller('foodCtrl', function($scope, $http, $stateParams) {
+  $scope.foodDetail = {};
+  $scope.editing = false;
+
+  $scope.edit = function () {
+    $scope.editing = true;
+  }
+
+  $scope.finish = function () {
+    $scope.editing = false;
+
+    $http.post('http://hack.waw.li', {
+      "database":"food",
+      "query": "delete",
+      "data": {
+        _id:$stateParams.food_id
+      }
+    }).
+    then(function(response) {
+      $http.post('http://hack.waw.li', {
+        "database":"food",
+        "query": "insert",
+        "data": $scope.foodDetail
+      }).
+      then(function(response) {
+        
+      }, function(response) {
+        // handle error
+      });
+    }, function(response) {
+      // handle error
+    });
+  }
+
+  $scope.RequestFoodDetail = function(){
+
+    $http.post('http://hack.waw.li', {
+      "database":"food",
+      "query": "find",
+      "data": {_id:$stateParams.food_id}
+    }).
+    then(function(response) {
+      $scope.foodDetail = response.data.data[0]
+    }, function(response) {
+      // handle error
+    });
+
+  }
+
 })
 
 ;

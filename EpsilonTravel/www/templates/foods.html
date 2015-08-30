@@ -1,23 +1,25 @@
-<ion-view view-title="{{schedule_owner}}" ng-init="Requesteventlists();">
+<ion-view view-title="Food" ng-init="Requestfoodlists();">
   <ion-nav-buttons side="right">
     <button class="button button-icon button-clear button-positive" 
     ng-click="openModal();">Add</button>
   </ion-nav-buttons>
 
-
   <ion-content>
-    <ion-list can-swipe="listCanSwipe">
-      <ion-item ng-repeat="event in eventlists" href="#{{join_path(event._id);}}">
+    <!-- <h1>Food</h1> -->
+   	<ion-list can-swipe="listCanSwipe">
+
+   	  <ion-item ng-repeat="food in foodlists" href="#{{join_path(food._id);}}">
       <!-- <ion-item ng-repeat="event in eventlists" href="#/app/{{event.trip_id}}/events/{{event._id}}"> -->
-        {{event.title}}
+        {{food.title}}
         <span class="item-note">
-	      {{event.date}} {{event.time}}
+	      {{food.rating}}
 	    </span>
 	    <ion-option-button class="button-assertive"
                        ng-click="deleteItem($index);">
       		delete
     	</ion-option-button>
       </ion-item>
+
     </ion-list>
   </ion-content>
 </ion-view>
