@@ -1,12 +1,16 @@
 <ion-view view-title="Trip" ng-init="RequestTripDetail();">
-  <ion-nav-buttons side="right">
+  <ion-nav-bar class="custom-bar custom-title">
+  <ion-nav-buttons>
     <button class="button button-icon button-clear button-positive" 
     ng-show="!editing"
-    ng-click="edit();">Edit</button>
+    ng-click="edit();" style="position:fixed; right:10px; color: rgb(163,163,163);">Edit</button>
+    <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+    </button>
     <button class="button button-icon button-clear button-positive" 
     ng-show="editing"
-    ng-click="finish();">Finish</button>
+    ng-click="finish();" style="position:fixed; right:10px;">Finish</button>
   </ion-nav-buttons>
+  </ion-nav-bar>
 
   <ion-content>
     <div class="list">

@@ -1,9 +1,13 @@
 <ion-view view-title="Receipts" ng-init="loadReceipts()">
-	<ion-nav-buttons side="right">
-  		<button class="button button-icon button-clear button-positive"  ng-click="addNewRecipt()">
-    	Add
+<ion-nav-bar class="custom-bar custom-title">
+	<ion-nav-buttons>
+  		<button class="button button-icon button-clear button-positive"  ng-click="addNewRecipt()" style="position:fixed; right:10px;">
+    	<i class="icon ion-plus-round icon-plus"></i>
   		</button>
+  		<button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
 	</ion-nav-buttons>
+</ion-nav-bar>
   		<ion-content>
     		<ion-list can-swipe="true">
 		        <ion-item class="item-thumbnail-left" ng-repeat="receipt in receipts" href="#{{join_path(receipt._id);}}">
