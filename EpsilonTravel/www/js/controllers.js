@@ -566,6 +566,12 @@ angular.module('starter.controllers', [])
     $scope.templateDetail.selected.push(false);
   };
 
+  for (var i = 50 - 1; i >= 0; i--) {
+    $scope.templateDetail.items.push("");
+    // $scope.templateDetail.items.push("item"+i);
+    $scope.templateDetail.selected.push(false);
+  };
+
   $scope.RequestTemplatelist = function(){
 
     $http.post('http://hack.waw.li', {
