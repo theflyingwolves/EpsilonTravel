@@ -359,6 +359,9 @@ angular.module('starter.controllers', [])
     }).
     then(function(response) {
       $scope.eventlists = response.data.data;
+      $scope.eventlists.sort(function(a,b){
+        return a.date.localeCompare(b.date);
+      });
       console.log($scope.eventlists);
     }, function(response) {
       // handle error
@@ -746,6 +749,12 @@ angular.module('starter.controllers', [])
     }).
     then(function(response) {
       $scope.receipts = response.data.data;
+      for (var i = $scope.receipts.length - 1; i >= 0; i--) {
+        $scope.receipts[i].imgUrl = '../img/receipts/receipt1.jpeg';
+      };
+      $scope.receipts.sort(function(a,b){
+        return a.date.localeCompare(b.date);
+      });
       console.log(response.data.data)
       // console.log($scope.tripList);
     }, function(response) {
@@ -852,7 +861,7 @@ angular.module('starter.controllers', [])
         "data": $scope.receiptDetail
       }).
       then(function(response) {
-        
+
       }, function(response) {
         // handle error
       });
@@ -877,6 +886,7 @@ angular.module('starter.controllers', [])
     }).
     then(function(response) {
       $scope.receiptDetail = response.data.data[0]
+      $scope.receiptDetail.imgUrl = '../img/receipts/receipt1.jpeg';
       // console.log($scope.receiptDetail)
     }, function(response) {
       // handle error

@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<title>EasyTrip</title>
 </head>
-<body ng-controller="MainCtrl">
+<body ng-controller="MainCtrl" ng-init="init()">
 	<div class="container nav-container">
 
 			<nav class="navbar navbar-default">
@@ -21,7 +21,7 @@
 			        <span class="icon-bar"></span>
 			        <span class="icon-bar"></span>
 			      </button>
-			      <a class="navbar-brand" href="#">EasyTrip</a>
+			      <a class="navbar-brand" href="#">EasyTrip Admin</a>
 			    </div>
 
 			    <!-- Collect the nav links, forms, and other content for toggling -->
@@ -39,7 +39,7 @@
 
 			<!-- <div class="jumbotron main-container"> -->
 				<a id="dlink"  style="display:none;"></a>
-				<button type="button" class="btn btn-default pull-right" ng-click="export('trip')" style="margin-right: 15px; margin-top:10px;">Export to Excel</button>
+				<button type="button" class="btn btn-default pull-right" ng-click="export('trips')" style="margin-right: 15px; margin-top:10px;">Export to Excel</button>
 				<div class="alert alert-info" role="alert">Total Expense: {{totalExpense}}</div>
 				<div class="table-container">
 					<table class="table table-bordered table-hover" id="trips">
@@ -67,9 +67,9 @@
 							<td>{{trip.title}}</td>
 							<td>{{trip.destination}}</td>
 							<td>{{trip.participants}}</td>
-							<td>{{trip.start}}</td>
-							<td>{{trip.end}}</td>
-							<td ng-click="select(trip)"><a href="#" data-toggle="modal" data-target="#myModal">{{trip.expense}}</a></td>
+							<td>{{trip.startdate}}</td>
+							<td>{{trip.enddate}}</td>
+							<td ng-click="select(trip)"><a href="#" data-toggle="modal" data-target="#myModal">{{trip.totalExpense}}</a></td>
 							<td>{{trip.summary}}</td>
 						</tr>
 
@@ -90,7 +90,7 @@
 						<tr>
 							<td>Title</td>
 							<td>Date</td>
-							<td>Time</td>
+							<!-- <td>Time</td> -->
 							<td>Amount</td>
 							<td>Description</td>
 						</tr>
@@ -98,8 +98,8 @@
 						<tr ng-repeat="receipt in selectedTrip.receipts">
 							<td>{{receipt.title}}</td>
 							<td>{{receipt.date}}</td>
-							<td>{{receipt.time}}</td>
-							<td>{{receipt.amount}}</td>
+							<!-- <td>{{receipt.time}}</td> -->
+							<td>{{receipt.price}}</td>
 							<td>{{receipt.description}}</td>
 						</tr>
 
