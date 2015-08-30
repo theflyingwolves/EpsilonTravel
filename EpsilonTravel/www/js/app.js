@@ -125,7 +125,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'menuContent': {
         templateUrl: 'templates/activities.html',
-        controller: 'PlaylistsCtrl'
+        controller: 'activitiesCtrl'
+      }
+    }
+  })
+
+  .state('app.activity', {
+    url: '/activities/:activity_id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/activity.html',
+        controller: 'activityCtrl'
       }
     }
   })

@@ -1294,4 +1294,240 @@ angular.module('starter.controllers', [])
 
 })
 
+
+.controller('activitiesCtrl', function($scope, $http, $stateParams, $ionicModal, $location) {
+
+  $scope.activitylists = [];
+
+  trip_id = $stateParams.trip_id;
+
+
+  $scope.RequestActivitylists = function(){
+
+    $http.post('http://hack.waw.li', {
+      "database":"trip",
+      "query": "find",
+      "data": {_id:$stateParams.trip_id}
+      // "data": {trip_id:$stateParams.trip_id}
+    }).
+    then(function(response) {
+      var trip = response.data.data[0];
+      console.log(response)
+      var cityname = trip.destination;
+
+      $http.post('http://hack.waw.li', {
+        "database":"activity",
+        "query": "find",
+        // "data": {}
+        "data": {cityname:cityname}
+      }).
+      then(function(response) {
+        // console.log("hello");
+        $scope.activitylists = response.data.data;
+        console.log($scope.activitylists);
+      }, function(response) {
+        // handle error
+      });
+
+    }, function(response) {
+      // handle error
+    });
+  }
+
+  $scope.activityDetail = {
+      title: "",
+      location: "",
+      category: "",
+      price: "",
+      cityname: "",
+      rating:0,
+      description:"",
+      comments:[]
+  };
+
+  // handle the add button
+  $ionicModal.fromTemplateUrl('templates/activityModal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+      $scope.activityDetail = {
+        title: "",
+        location: "",
+        category: "",
+        price: "",
+        cityname: "",
+        description:"",
+        rating:0,
+        comments:[]
+      };
+  };
+  $scope.confirmAdd = function() {
+    $scope.activityDetail.rating = 0;
+
+    $http.post('http://hack.waw.li', {
+      "database":"trip",
+      "query": "find",
+      "data": {_id:$stateParams.trip_id}
+      // "data": {trip_id:$stateParams.trip_id}
+    }).
+    then(function(response){
+      var trip = response.data.data[0];
+      console.log(response)
+      $scope.activityDetail.cityname = trip.destination;
+
+      $http.post('http://hack.waw.li', {
+            "database":"activity",
+            "query": "insert",
+            "data": $scope.activityDetail
+          }).
+          then(function(response) {
+            $scope.modal.hide();
+            $scope.RequestActivitylists();
+
+             $scope.activityDetail = {
+              title: "",
+              location: "",
+              category: "",
+              price: "",
+              cityname: "",
+              description:"",
+              comments:[]
+             };
+
+          }, function(response) {
+            // handle error
+            $scope.modal.hide();
+             $scope.activityDetail = {
+              title: "",
+              location: "",
+              category: "",
+              price: "",
+              cityname: "",
+              rating:0,
+              description:"",
+              comments:[]
+             };
+
+          });
+
+    });
+
+
+    
+  };
+  $scope.cancelAdd = function() {
+    $scope.modal.hide();
+    $scope.activityDetail = {
+        title: "",
+        location: "",
+        category: "",
+        price: "",
+        cityname: "",
+        rating:0,
+        description:""
+      }
+  };
+
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+  // handle swipe and delete
+   $scope.listCanSwipe = true;
+   $scope.deleteItem = function(event_idx){
+      var e_id = $scope.activitylists[event_idx]._id;
+      $scope.activitylists.splice(event_idx, 1);  
+      
+      $http.post('http://hack.waw.li', {
+        "database":"activity",
+        "query": "delete",
+        "data": {_id:e_id}
+      }).
+      then(function(response) {
+        
+      }, function(response) {
+        // handle error
+      });
+
+   }
+
+   // append to create new url
+   $scope.join_path = function(things_to_append){
+    // console.log("hello");
+    // console.log($location.url()+"/"+things_to_append);
+    return $location.url()+"/"+things_to_append;
+   }
+
+})
+
+
+.controller('activityCtrl', function($scope, $http, $stateParams) {
+  $scope.foodDetail = {};
+  $scope.editing = false;
+
+  $scope.edit = function () {
+    $scope.editing = true;
+  }
+
+  $scope.finish = function () {
+    $scope.editing = false;
+
+    $http.post('http://hack.waw.li', {
+      "database":"food",
+      "query": "delete",
+      "data": {
+        _id:$stateParams.food_id
+      }
+    }).
+    then(function(response) {
+      $http.post('http://hack.waw.li', {
+        "database":"food",
+        "query": "insert",
+        "data": $scope.foodDetail
+      }).
+      then(function(response) {
+        
+      }, function(response) {
+        // handle error
+      });
+    }, function(response) {
+      // handle error
+    });
+  }
+
+  $scope.RequestFoodDetail = function(){
+
+    $http.post('http://hack.waw.li', {
+      "database":"food",
+      "query": "find",
+      "data": {_id:$stateParams.food_id}
+    }).
+    then(function(response) {
+      $scope.foodDetail = response.data.data[0]
+    }, function(response) {
+      // handle error
+    });
+
+  }
+
+})
+
+
+
 ;

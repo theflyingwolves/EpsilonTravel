@@ -1,0 +1,35 @@
+  <ion-modal-view view-title="New activity">
+
+    <ion-content>
+      <div class="list">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Name</span>
+          <input type="text" ng-model="activityDetail.title">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Address</span>
+          <input type="text" ng-model="activityDetail.location">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Category</span>
+          <input type="text" ng-model="activityDetail.category">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Price</span>
+          <input type="text" ng-model="activityDetail.price">
+        </label>
+
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Descriptions</span>
+          <input type="text" ng-model="activityDetail.description">
+        </label>
+        <button class="button button-block button-positive" ng-click="confirmAdd();">
+          Confirm
+        </button>
+        <button class="button button-block button-stable" ng-click="cancelAdd();">
+          Cancel
+        </button>
+
+      </div>
+    </ion-content>
+  </ion-modal-view>

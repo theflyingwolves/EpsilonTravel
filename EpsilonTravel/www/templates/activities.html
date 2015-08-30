@@ -1,6 +1,73 @@
-<ion-view view-title="Search">
+<ion-view view-title="Local Activities" ng-init="RequestActivitylists();">
+<ion-nav-bar class="custom-bar custom-title">
+  <ion-nav-buttons>
+    <button class="button button-icon button-clear button-positive" 
+    ng-click="openModal();" style="position:fixed; right:10px;"><i class="icon ion-plus-round icon-plus"></i></button>
+    <button class="button button-icon button-clear ion-navicon-round" menu-toggle="left">
+        </button>
+  </ion-nav-buttons>
+</ion-nav-bar>
 
   <ion-content>
-    <h1>Activities</h1>
+    <!-- <h1>Food</h1> -->
+
+    <ion-list>
+      <ion-item ng-repeat="activity in activitylists">
+            <!-- <div class="col col-80" href="#{{join_path(activity._id);}}">
+                <div class="item item-text-wrap">
+                  {{activity.title}} 
+                  <span style="right:0px;">{{activity.rating}}</span>
+                </div>
+            </div>
+            <div class="col col-20" ng-click="like(activity._id)">
+              <div class="ion-android-favorite-outline"></div>
+            </div> 
+            </div>-->
+
+<!--             <div class="col col-80">
+              <div class="item item-text-wrap">
+                  {{activity.title}}
+                  <span style="right:0px; width:80px; position:fixed;" >{{activity.rating}}</span>
+              </div>
+            </div>
+
+            <div class="col col-20">
+              <div class="ion-android-favorite-outline"></div>
+            </div> -->
+
+            <div class="list card">
+
+                <div class="item">
+                  <h2>{{activity.title}}</h2>
+                  <p>{{activity.location}}</p>
+                </div>
+
+                <div class="item item-body">
+                  <p>
+                    {{activity.description}}
+                  </p>
+                  <p>
+                    <a href="#" class="subdued">{{activity.rating}} Like</a>
+                    <a href="#" class="subdued">{{activity.comments.length || 0}} Comments</a>
+                  </p>
+                </div>
+
+                <div class="item tabs tabs-secondary tabs-icon-left">
+                  <a class="tab-item" href="#">
+                    <i class="icon ion-thumbsup"></i>
+                    Like
+                  </a>
+                  <a class="tab-item" href="#">
+                    <i class="icon ion-chatbox"></i>
+                    Comment
+                  </a>
+                  <a class="tab-item" href="#">
+                    <i class="icon ion-share"></i>
+                    Share
+                  </a>
+                </div>
+      </ion-item>
+    </ion-list>
+
   </ion-content>
 </ion-view>
