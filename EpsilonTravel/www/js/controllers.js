@@ -547,6 +547,31 @@ angular.module('starter.controllers', [])
 
 .controller('LocalCtrl', function($scope, $stateParams) {
 
+  $scope.amount_of_money = 0;
+  $scope.amount_of_money_converted = 50;
+  $scope.convert_currency = function(){
+    return $scope.amount_of_money*4.54;
+  }
+  
+  $scope.calcTime = function () {
+    // create Date object for current location
+    var offset = -8;
+    var d = new Date();
+
+    // convert to msec
+    // subtract local time zone offset
+    // get UTC time in msec
+    var utc = d.getTime() - (d.getTimezoneOffset() * 60000);
+
+    // create new Date object for different city
+    // using supplied offset
+    var nd = new Date(utc + (3600000*offset));
+
+    // return time as a string
+    return nd.toLocaleString();
+  }
+
+
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
